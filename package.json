@@ -1,0 +1,12 @@
+{
+  "name": "portfolio-cms",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portfolio website with admin CMS (Vercel-ready)",
+  "dependencies": {
+    "@vercel/blob": "^0.23.3"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

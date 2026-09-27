@@ -1,0 +1,8 @@
+node_modules/
+.vercel/
+.env
+server.config.json
+site/uploads/*
+!site/uploads/.gitkeep
+__pycache__/
+*.pyc

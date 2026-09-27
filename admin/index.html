@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Portfolio CMS</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚙️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+
+  <!-- ======= Login ======= -->
+  <div class="login-wrap" id="loginView">
+    <form class="login-card" id="loginForm">
+      <h1>⚙️ Portfolio Admin</h1>
+      <p class="login-sub">Sign in to manage your website content</p>
+      <label>Username
+        <input type="text" id="loginUser" autocomplete="username" required>
+      </label>
+      <label>Password
+        <input type="password" id="loginPass" autocomplete="current-password" required>
+      </label>
+      <p class="form-error" id="loginError" hidden>Invalid username or password</p>
+      <button class="btn btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+  </div>
+
+  <!-- ======= Admin app ======= -->
+  <div id="appView" hidden>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <span class="topbar-brand">⚙️ Portfolio Admin</span>
+        <div class="topbar-actions">
+          <a href="/" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">View site ↗</a>
+          <button class="btn btn-primary btn-sm" id="saveBtn">Save changes</button>
+          <button class="btn btn-ghost btn-sm" id="logoutBtn">Log out</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <nav class="side-nav" id="sideNav">
+          <button data-tab="hero">🏠 Hero &amp; Profile</button>
+          <button data-tab="about">👤 About</button>
+          <button data-tab="experience">💼 Experience</button>
+          <button data-tab="projects">🚀 Projects</button>
+          <button data-tab="skills">🧰 Skills</button>
+          <button data-tab="certifications">🎓 Certifications</button>
+          <button data-tab="education">📚 Education</button>
+          <button data-tab="contact">✉️ Contact</button>
+          <button data-tab="files">🖼️ Media files</button>
+        </nav>
+      </aside>
+
+      <main class="main" id="main"></main>
+    </div>
+
+    <div class="toast" id="toast" hidden></div>
+  </div>
+
+  <script src="/admin/admin.js"></script>
+</body>
+</html>
