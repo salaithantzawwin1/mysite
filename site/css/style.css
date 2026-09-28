@@ -21,6 +21,9 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* hidden attribute must always win, even over display:flex/grid rules */
+[hidden] { display: none !important; }
+
 html { scroll-behavior: smooth; }
 
 body {
@@ -786,6 +789,9 @@ html[data-theme="light"] .skill-group li {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .cursor, .scroll-hint { animation: none; }
+  .hero-photo .portrait-card { animation: none; transition: none; }
+  .hero-photo .portrait-card:hover { transform: none; }
+  .project-img { transition: none; }
 }
 
 /* ---------- Responsive ---------- */
@@ -824,4 +830,6 @@ html[data-theme="light"] .skill-group li {
   .timeline-badge { left: -28px; }
   .contact-form .form-row { grid-template-columns: 1fr; }
   .footer-inner { justify-content: center; text-align: center; }
+  .footer-left { justify-items: center; }
+  .footer-social { justify-content: center; }
 }
