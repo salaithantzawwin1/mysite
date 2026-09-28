@@ -63,13 +63,26 @@
     $("#heroKicker").textContent = data.profile.kicker || "Hi, I'm";
     $("#heroName").textContent = data.profile.name;
     $("#heroSummary").textContent = data.profile.summary;
-    $("#heroPhoto").src = data.profile.photo || "assets/profile.jpg";
-    $("#footerName").textContent = data.profile.name;
-    $("#footerText").textContent = data.footer.text || "";
+
+    // Monogram avatar (photo no longer used on the hero)
     var words = data.profile.name.split(/\s+/).filter(Boolean);
     var initials = ((words[0] || "")[0] || "") + ((words[words.length - 1] || "")[0] || "");
     initials = initials.toUpperCase() || "ME";
+    var mono = $("#heroMonogram");
+    if (mono) mono.querySelector("span").textContent = initials;
     $("#brandName").innerHTML = esc(initials[0]) + '<span class="brand-dot">.</span>' + esc(initials.slice(1));
+
+    // Availability badge
+    var av = $("#availabilityBadge");
+    if (av) {
+      if (data.profile.available) {
+        av.innerHTML = '<span class="pulse-dot"></span>' + esc(data.profile.availableText || "Open to new opportunities");
+        av.hidden = false;
+      } else {
+        av.hidden = true;
+      }
+    }
+
 
     // Stats
     var stats = $("#heroStats");
@@ -101,6 +114,9 @@
             '<ul class="timeline-list">' +
               (job.bullets || []).map(function (b) { return "<li>" + esc(b) + "</li>"; }).join("") +
             "</ul>" +
+            '<div class="tech-tags">' +
+              (job.tags || []).map(function (t) { return '<span class="tech-tag">' + esc(t) + "</span>"; }).join("") +
+            "</div>" +
           "</div>" +
         "</article>"
       );
@@ -110,13 +126,15 @@
     $("#projKicker").textContent = data.projects.kicker;
     $("#projTitle").textContent = data.projects.title;
     $("#projectGrid").innerHTML = (data.projects.items || []).map(function (p, i) {
-      var desc = esc((p.description || "").replace(/\{highlight\}/g, p.highlight || ""));
+      var hasHighlight = p.highlight && String(p.highlight).trim() !== "";
+      var desc = esc((p.description || "").replace(/\{highlight\}/g, hasHighlight ? p.highlight : ""));
       var img = p.image
         ? '<img class="project-img" src="' + esc(p.image) + '" alt="' + esc(p.title) + '">'
         : '<div class="project-icon">' + esc(p.icon || "📁") + "</div>";
+      var metric = hasHighlight ? '<div class="project-metric">' + esc(p.highlight) + "</div>" : "";
       return (
         '<article class="card project-card reveal' + (i % 3 === 1 ? " delay-1" : i % 3 === 2 ? " delay-2" : "") + '">' +
-          img + "<h3>" + esc(p.title) + "</h3><p>" + desc + "</p>" +
+          metric + img + "<h3>" + esc(p.title) + "</h3><p>" + desc + "</p>" +
         "</article>"
       );
     }).join("");

@@ -27,7 +27,9 @@
         "suffix": "%",
         "label": "Email reliability gain"
       }
-    ]
+    ],
+    "available": true,
+    "availableText": "Open to new opportunities"
   },
   "about": {
     "kicker": "Who I am",
@@ -84,6 +86,12 @@
           "Coordinated vendors and ISPs and followed cases through until services were restored.",
           "Documented as we went: simple SOPs, network notes, and change records so knowledge isn't only in one person's head.",
           "Planned upgrades carefully: tested changes, used maintenance windows, and communicated impact."
+        ],
+        "tags": [
+          "Firewall",
+          "VMware ESXi",
+          "Backup & DR",
+          "Vendor management"
         ]
       },
       {
@@ -104,6 +112,14 @@
           "Coordinated third-party support: ISPs, vendors, and providers for escalations, circuits, and warranty cases through closure.",
           "Standardized knowledge: configuration records, troubleshooting guides, and handover notes for faster, consistent resolution.",
           "Delivered end-user IT support: prioritized urgent breakdowns and service requests to keep departments productive."
+        ],
+        "tags": [
+          "Windows Server",
+          "Active Directory",
+          "Exchange",
+          "Cisco",
+          "FortiGate",
+          "VMware"
         ]
       }
     ]

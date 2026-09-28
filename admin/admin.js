@@ -200,10 +200,10 @@
       var html = '<div class="panel"><h2>Hero &amp; Profile</h2>' +
         '<div class="field-row">' + getField(p, "name", "Name") + getField(p, "kicker", "Kicker (small text above name)") + "</div>" +
         getField(p, "summary", "Summary", { type: "textarea", rows: 3 }) +
-        getField(p, "photo", "Profile photo URL") +
-        '<div class="upload-row"><input type="file" accept="image/*" id="heroPhotoFile"><span class="hint">Upload new profile photo</span></div>' +
         '<div class="field"><label>Rotating role titles (one per line)</label>' +
           '<textarea rows="5" id="rolesBox">' + esc((p.roles || []).join("\n")) + "</textarea></div>" +
+        '<label class="field checkline"><input type="checkbox" id="availableToggle"' + (p.available ? " checked" : "") + '> Show "Open to opportunities" badge on the hero</label>' +
+        getField(p, "availableText", "Badge text (when enabled)") +
         "</div>";
 
       html += '<div class="panel"><h2>Hero statistics</h2><p class="hint">Numbers count up when the page loads.</p><div class="editor-list" id="statList"></div>' +
@@ -248,19 +248,13 @@
         p.roles = this.value.split("\n").map(function (s) { return s.trim(); }).filter(Boolean);
       });
 
-      // photo upload
-      $("#heroPhotoFile").addEventListener("change", function () {
-        var file = this.files[0];
-        if (!file) return;
-        var fd = new FormData();
-        fd.append("file", file);
-        fetch("/api/upload", { method: "POST", headers: { Authorization: "Bearer " + TOKEN }, body: fd })
-          .then(function (r) { return r.json(); })
-          .then(function (j) {
-            if (j.url) { p.photo = j.url; toast("Photo uploaded"); renderTab(); }
-            else toast(j.error || "Upload failed", true);
-          });
-      });
+      // availability toggle
+      var avToggle = document.getElementById("availableToggle");
+      if (avToggle) {
+        avToggle.addEventListener("change", function () {
+          p.available = this.checked;
+        });
+      }
 
       bindFields($("#main"));
     },
@@ -334,6 +328,7 @@
             "</div>" +
             '<label class="field checkline"><input type="checkbox" data-job="' + i + '" data-jk="current"' + (j.current ? " checked" : "") + '> Show "Current" badge</label>' +
             '<label class="field">Bullet points (one per line)<textarea rows="6" data-job="' + i + '" data-jk="bulletsText">' + esc((j.bullets || []).join("\n")) + "</textarea></label>" +
+            '<label class="field">Tech tags (comma separated, optional)<input data-job="' + i + '" data-jk="tagsText" value="' + esc((j.tags || []).join(", ")) + '"></label>' +
             "</div>";
         }).join("");
       }
@@ -345,6 +340,8 @@
         var j = sec.jobs[+t.dataset.job];
         if (t.dataset.jk === "bulletsText") {
           j.bullets = t.value.split("\n").map(function (s) { return s.trim(); }).filter(Boolean);
+        } else if (t.dataset.jk === "tagsText") {
+          j.tags = t.value.split(",").map(function (s) { return s.trim(); }).filter(Boolean);
         } else if (t.dataset.jk === "current") {
           j.current = t.checked;
         } else {
@@ -363,7 +360,7 @@
         }
       });
       $("#addJob").addEventListener("click", function () {
-        sec.jobs.push({ id: uid("job"), role: "New role", company: "", period: "", current: false, icon: "💼", bullets: [] });
+        sec.jobs.push({ id: uid("job"), role: "New role", company: "", period: "", current: false, icon: "💼", bullets: [], tags: [] });
         drawJobs();
       });
 
@@ -376,7 +373,7 @@
       var sec = DATA.projects;
       $("#main").innerHTML = '<div class="panel"><h2>Projects section</h2><div class="field-row">' +
         getField(sec, "kicker", "Kicker") + getField(sec, "title", "Title") + "</div></div>" +
-        '<div class="panel"><h2>Project cards</h2><p class="hint">Use <code>{highlight}</code> inside the description to show the highlighted text (e.g. 80%).</p>' +
+        '<div class="panel"><h2>Project cards</h2><p class="hint">The <b>Highlight</b> value (e.g. 80%) shows as a big gradient number on the card. Use <code>{highlight}</code> inside the description where the text should repeat.</p>' +
         '<div class="editor-list" id="projList"></div><button class="btn btn-ghost btn-sm" id="addProj">+ Add project</button></div>';
 
       function drawProjs() {
