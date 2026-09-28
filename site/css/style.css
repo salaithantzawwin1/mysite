@@ -176,41 +176,49 @@ a:hover { text-decoration: underline; }
 
 .hero-photo { display: flex; justify-content: center; }
 
-/* Monogram avatar — clean single circle, no rings */
-.monogram-avatar {
-  width: min(280px, 60vw);
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  background:
-    radial-gradient(110px 110px at 30% 22%, rgba(255, 255, 255, 0.28), transparent 55%),
-    conic-gradient(from 210deg, #38bdf8, #818cf8, #6366f1, #38bdf8);
+/* Hero portrait card — large rounded frame with a subtle gradient border */
+.portrait-card {
+  position: relative;
+  width: min(420px, 100%);
+  aspect-ratio: 4 / 5;
+  border-radius: 28px;
+  padding: 6px;
+  background: linear-gradient(150deg, rgba(56, 189, 248, 0.85), rgba(129, 140, 248, 0.55) 45%, rgba(99, 102, 241, 0.3));
+  box-shadow: 0 24px 60px rgba(2, 8, 20, 0.45), 0 8px 24px rgba(56, 189, 248, 0.12);
   display: grid;
   place-items: center;
-  box-shadow: 0 14px 36px rgba(56, 189, 248, 0.2);
   overflow: hidden;
-  position: relative;
 }
-.monogram-avatar span {
+.portrait-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(420px 320px at 80% 0%, rgba(56, 189, 248, 0.12), transparent 65%),
+    radial-gradient(360px 300px at 10% 100%, rgba(129, 140, 248, 0.1), transparent 60%);
+  pointer-events: none;
+}
+.portrait-initials {
   font-family: "Sora", sans-serif;
   font-weight: 800;
-  font-size: clamp(4rem, 11vw, 6.2rem);
+  font-size: clamp(3rem, 8vw, 4.5rem);
   letter-spacing: 0.01em;
   color: rgba(255, 255, 255, 0.97);
   text-shadow: 0 4px 28px rgba(11, 18, 32, 0.5);
   user-select: none;
 }
 
-/* Uploaded photo fills the circular avatar */
-.monogram-avatar img {
+/* Uploaded photo fills the card behind the gradient frame */
+.portrait-card img {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  inset: 6px;
+  width: calc(100% - 12px);
+  height: calc(100% - 12px);
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: 22px;
 }
-.monogram-avatar img[hidden] { display: none; }
-.monogram-avatar.has-photo { background: var(--card); }
+.portrait-card img[hidden] { display: none; }
+.portrait-card.has-photo::before { opacity: 0; }
 
 /* Availability badge */
 .availability-badge {
@@ -705,7 +713,8 @@ html[data-theme="light"] .tech-tag {
   background: rgba(2, 132, 199, 0.08);
   border-color: rgba(2, 132, 199, 0.25);
 }
-html[data-theme="light"] .monogram-avatar span { color: #fff; }
+html[data-theme="light"] .portrait-card { box-shadow: 0 24px 60px rgba(15, 23, 42, 0.14), 0 8px 24px rgba(56, 189, 248, 0.1); }
+html[data-theme="light"] .portrait-card span { color: #fff; }
 html[data-theme="light"] .skill-group li {
   color: #3730a3;
   background: rgba(99, 102, 241, 0.08);
@@ -732,7 +741,7 @@ html[data-theme="light"] .skill-group li {
 @media (max-width: 900px) {
   .hero-grid, .about-grid { grid-template-columns: 1fr; }
   .hero-photo { order: -1; }
-  .monogram-avatar { width: min(220px, 55vw); }
+  .portrait-card { width: min(340px, 92vw); }
   .hero { padding-top: calc(var(--nav-h) + 24px); }
 }
 

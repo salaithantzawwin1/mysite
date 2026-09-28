@@ -206,7 +206,7 @@
         getField(p, "availableText", "Badge text (when enabled)") +
         "</div>" +
         '<div class="panel"><h2>Profile photo (optional)</h2>' +
-        '<p class="hint">Shown inside the circular avatar. Leave empty to display the initials monogram instead.</p>' +
+        '<p class="hint">Shown inside the hero portrait card. Leave empty to display the initials monogram instead.</p>' +
         getField(p, "photo", "Profile photo URL") +
         '<div class="upload-row"><input type="file" accept="image/*" id="heroPhotoFile"><span class="hint">Upload new profile photo</span></div>' +
         "</div>";
