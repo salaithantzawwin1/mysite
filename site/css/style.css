@@ -178,7 +178,7 @@ a:hover { text-decoration: underline; }
 
 /* Monogram avatar — clean single circle, no rings */
 .monogram-avatar {
-  width: min(210px, 50vw);
+  width: min(280px, 60vw);
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   background:
@@ -732,7 +732,7 @@ html[data-theme="light"] .skill-group li {
 @media (max-width: 900px) {
   .hero-grid, .about-grid { grid-template-columns: 1fr; }
   .hero-photo { order: -1; }
-  .monogram-avatar { width: min(180px, 46vw); }
+  .monogram-avatar { width: min(220px, 55vw); }
   .hero { padding-top: calc(var(--nav-h) + 24px); }
 }
 
