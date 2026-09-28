@@ -5,8 +5,8 @@
 ![Storage](https://img.shields.io/badge/storage-Vercel%20Blob-blue)
 ![License](https://img.shields.io/badge/license-private-orange)
 
-**Live site:** https://mysite-mu-sand-49.vercel.app
-**Admin panel:** https://mysite-mu-sand-49.vercel.app/admin
+**Live site:** https://salaithantzawwin.vercel.app
+**Admin panel:** https://salaithantzawwin.vercel.app/admin
 
 Portfolio website with a built-in admin panel. Everything on the public site
 (profile, experience, projects, skills, certifications, education, contact,
@@ -60,24 +60,87 @@ First run creates `server.config.json` with a random password and prints it
 
 ## Admin panel
 
+- URL: **https://salaithantzawwin.vercel.app/admin** (login: `admin`,
+  password set in the Vercel env var `ADMIN_PASSWORD`).
 - Tabs: Hero & Profile, About, Experience, Projects, Skills,
   Certifications, Education, Contact, Media files.
 - Every list supports **Add / Edit / Reorder (↑↓) / Delete**.
-- Certifications: upload an image **or PDF** — PDFs show a 📄 badge and open
-  in a new tab; images show as thumbnails.
-- Hero tab also has the **CV file URL** (shown on the “Download CV” button;
+- **Hero tab** — profile name/roles/summary, availability badge
+  ("Open to new opportunities"), portrait photo upload (shown in the large
+  gradient-framed hero card; empty shows the STZW initials monogram),
+  stats (years, uptime, etc.) and the **CV file URL** ("Download CV" button;
   empty hides the button).
-- **Save changes** persists — the public site updates on refresh.
+- **About tab** — paragraphs, quick facts (Location, Email, Phone, Languages,
+  Interests) and an optional About photo (gets the same gradient frame).
+- **Projects tab** — the **Highlight** value (e.g. `80%`) renders as a big
+  gradient number on the card; `image` shows a photo (auto zoom on hover);
+  `{highlight}` inside the description repeats the number.
+- **Skills tab** — grouped lists (Infrastructure / Network / Security /
+  Virtualization) shown as chips, plus the full icon grid.
+- **Contact tab** — contact cards, **Social links** (label "LinkedIn" or
+  "Facebook" auto-renders the official icon; shown in the Contact section
+  and the footer) and the **Web3Forms access key**: create a free key at
+  https://web3forms.com (just enter the receiving email), paste it here and
+  Save — the "Send a message" form goes live and messages arrive in that
+  inbox. Empty key hides the form.
+- **Media files tab** — bulk image upload; copy any uploaded URL into an
+  image field.
+- **Save changes** persists to Vercel Blob — the public site updates on
+  refresh (the site cache-busts `/api/content` on every load).
+
+## Updating content from this repo (deploy workflow)
+
+1. Edit files locally, then:
+   ```bash
+   git add <files> && git commit -m "..." && git push origin main
+   ```
+   Vercel auto-deploys (~10 s — watch progress in the dashboard,
+   Deployments page shows "Ready").
+
+2. **Important:** `data.json` changes are only *seed* content — the live
+   site reads from **Vercel Blob**. After pushing a `data.json` change, also
+   PUT it to production:
+   ```bash
+   B=https://salaithantzawwin.vercel.app
+   TOKEN=$(curl -s -X POST $B/api/login -H 'Content-Type: application/json' \
+     -d '{"username":"admin","password":"<ADMIN_PASSWORD>"}' \
+     | python -c "import sys,json;print(json.load(sys.stdin)['token'])")
+   curl -s -X PUT $B/api/content -H "Authorization: Bearer $TOKEN" \
+     -H 'Content-Type: application/json; charset=utf-8' \
+     --data-binary @data.json
+   ```
+   (Admin → Save from the panel does the same thing.) Blob GET may lag a few
+   seconds behind a PUT (CDN cache) — verify with a `?cb=<timestamp>`
+   cache-buster on `/api/content`.
+
+3. `vercel.json` rewrites: `/` → site, `/admin`, `/api/*`, `/css`, `/js`,
+   `/assets`, `/favicon.ico`, `/manifest.webmanifest`, `/*.docx`.
+
+## Site features (current)
+
+- Light/dark theme toggle (saved in `localStorage`, pre-paint to avoid flash)
+- STZW gradient favicon + PWA manifest (installable to a phone home screen;
+  iOS opens fullscreen without Safari bars)
+- Open Graph / Twitter share card (portrait OG image) when the link is shared
+- Hero portrait card with entrance animation and hover lift
+- Project photos with hover zoom, big gradient metrics
+- Availability badge, tech tags on jobs, grouped skills
+- Contact cards, social icon buttons (Contact section + footer)
+- Working contact form (Web3Forms) with animated success panel
+- Visitor counter badge in the footer (`/api/visit`, once per browser
+  session, stored in Blob `stats/visits.json`)
+- Custom 404 page in the site style
 
 ## Structure
 
 ```
-api/          Serverless functions (login, content, upload, files, logout)
-lib/cms.js    Shared storage/auth helpers (Vercel Blob or local filesystem)
-site/         Public website + CV + certificates + uploads
+api/          Serverless functions (login, content, upload, files, visit, logout)
+lib/cms.js    Shared storage/auth/helpers (Vercel Blob or local filesystem)
+site/         Public website + CV + certificates + uploads + manifest
 admin/        Admin panel (single page app)
 data.json     Seed content (local mode) — Vercel keeps a Blob copy
 server.py     Local dev server mirroring the Vercel API
 vercel.json   Routing config
+404.html      Custom not-found page (auto-served by Vercel)
 docs/         GitHub Pages-style landing page (open docs/index.html)
 ```

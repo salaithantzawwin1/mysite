@@ -25,6 +25,11 @@
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <meta name="theme-color" content="#0b1220">
+  <!-- iOS home-screen app -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="STZW">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -180,8 +185,12 @@
     <div class="container footer-inner">
       <div class="footer-left">
         <p>© <span id="year"></span> <span id="footerName">Salai Thant Zaw Win</span>. <span id="footerText">All rights reserved.</span></p>
-        <div class="social-row footer-social" id="footerSocial"></div>
+        <div class="social-row footer-social" id="footerSocial" hidden></div>
       </div>
+      <span class="visit-badge" id="visitBadge" hidden>
+        <span class="visit-dot" aria-hidden="true"></span>
+        <span id="visitCount">—</span> visits
+      </span>
       <a href="#top" class="to-top" aria-label="Back to top">↑ Top</a>
     </div>
   </footer>

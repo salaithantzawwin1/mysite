@@ -276,6 +276,23 @@
     // Footer year
     $("#year").textContent = new Date().getFullYear();
 
+    // Visitor counter (once per browser session)
+    var visitBadge = $("#visitBadge");
+    if (visitBadge) {
+      var ping = false;
+      try { ping = !sessionStorage.getItem("visited"); } catch (e) {}
+      fetch("/api/visit" + (ping ? "?increment" : ""))
+        .then(function (r) { return r.json(); })
+        .then(function (j) {
+          if (j && j.total != null) {
+            $("#visitCount").textContent = j.total.toLocaleString();
+            visitBadge.hidden = false;
+            try { sessionStorage.setItem("visited", "1"); } catch (e) {}
+          }
+        })
+        .catch(function () {});
+    }
+
     // CV button visibility
     var cvBtn = $("#cvBtn");
     cvBtn.style.display = data.footer.cvFile ? "" : "none";
