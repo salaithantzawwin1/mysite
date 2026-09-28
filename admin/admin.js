@@ -289,6 +289,11 @@
         '<div class="field"><label>Paragraphs (blank line = new paragraph)</label>' +
           '<textarea rows="6" id="paraBox">' + esc((a.paragraphs || []).join("\n\n")) + "</textarea></div>" +
         "</div>" +
+        '<div class="panel"><h2>About photo (optional)</h2>' +
+        '<p class="hint">A second photo shown beside the facts list. Leave empty to hide it.</p>' +
+        getField(a, "photo", "Photo URL") +
+        '<div class="upload-row"><input type="file" accept="image/*" id="aboutPhotoFile"><span class="hint">Upload photo</span></div>' +
+        "</div>" +
         '<div class="panel"><h2>Facts list</h2><div class="editor-list" id="factList"></div>' +
         '<button class="btn btn-ghost btn-sm" id="addFact">+ Add fact</button></div>';
 
@@ -318,6 +323,23 @@
         a.facts.push({ label: "New", value: "", link: "" });
         drawFacts();
       });
+
+      // about photo upload
+      var aboutFile = document.getElementById("aboutPhotoFile");
+      if (aboutFile) {
+        aboutFile.addEventListener("change", function () {
+          var file = this.files[0];
+          if (!file) return;
+          var fd = new FormData();
+          fd.append("file", file);
+          fetch("/api/upload", { method: "POST", headers: { Authorization: "Bearer " + TOKEN }, body: fd })
+            .then(function (r) { return r.json(); })
+            .then(function (j) {
+              if (j.url) { a.photo = j.url; toast("Photo uploaded"); renderTab(); }
+              else toast(j.error || "Upload failed", true);
+            });
+        });
+      }
 
       bindFields($("#main"));
     },

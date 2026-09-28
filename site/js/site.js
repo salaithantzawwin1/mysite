@@ -117,6 +117,18 @@
       return "<li><span>" + esc(f.label) + "</span>" + linkOrText(f) + "</li>";
     }).join("");
 
+    // About photo (optional)
+    var aboutPhotoWrap = $("#aboutPhotoWrap");
+    if (aboutPhotoWrap) {
+      var aboutUrl = (data.about.photo || "").trim();
+      if (aboutUrl) {
+        $("#aboutPhoto").src = aboutUrl;
+        aboutPhotoWrap.hidden = false;
+      } else {
+        aboutPhotoWrap.hidden = true;
+      }
+    }
+
     // Experience
     $("#expKicker").textContent = data.experience.kicker;
     $("#expTitle").textContent = data.experience.title;

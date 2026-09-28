@@ -10,7 +10,7 @@
       "VMware Virtualization Specialist"
     ],
     "summary": "15+ years keeping servers, networks and security running reliably — Windows/Active Directory, Exchange, Cisco & FortiGate, and VMware — with clear documentation and calm, steady operations.",
-    "photo": "assets/profile.jpg",
+    "photo": "assets/hero-portrait.jpg",
     "stats": [
       {
         "value": 16,
@@ -64,7 +64,8 @@
         "value": "Sports · Traveling · Singing",
         "link": ""
       }
-    ]
+    ],
+    "photo": "assets/about-photo.jpg"
   },
   "experience": {
     "kicker": "Career",
