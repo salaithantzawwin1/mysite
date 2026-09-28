@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/", "destination": "/site/index.html" },
+    { "source": "/favicon.ico", "destination": "/site/favicon.ico" },
     { "source": "/admin", "destination": "/admin/index.html" },
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/css/(.*)", "destination": "/site/css/$1" },
