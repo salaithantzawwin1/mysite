@@ -401,7 +401,7 @@
   initTheme();
   initContactForm();
   initNav();
-  fetch("/api/content")
+  fetch("/api/content?cb=" + Date.now()) // cache-buster: always fetch fresh content
     .then(function (r) { return r.json(); })
     .then(function (data) {
       window.__roles__ = data.profile.roles || [];
