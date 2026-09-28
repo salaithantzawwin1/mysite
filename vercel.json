@@ -6,7 +6,6 @@
   "headers": [
     {
       "source": "/admin/(.*)",
-      "destination": "/admin/$1",
       "headers": [{ "key": "Cache-Control", "value": "no-store" }]
     }
   ]
