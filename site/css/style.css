@@ -220,6 +220,20 @@ a:hover { text-decoration: underline; }
 .portrait-card img[hidden] { display: none; }
 .portrait-card.has-photo::before { opacity: 0; }
 
+/* Entrance animation + gentle hover lift */
+@keyframes portrait-in {
+  from { opacity: 0; transform: translateY(28px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+.hero-photo .portrait-card {
+  animation: portrait-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.hero-photo .portrait-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 32px 70px rgba(2, 8, 20, 0.5), 0 12px 32px rgba(56, 189, 248, 0.2);
+}
+
 /* Availability badge */
 .availability-badge {
   display: inline-flex;
@@ -329,9 +343,12 @@ a:hover { text-decoration: underline; }
 .about-side { display: grid; gap: 18px; }
 .about-photo {
   border-radius: var(--radius);
-  overflow: hidden;
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow);
+  padding: 5px;
+  background: linear-gradient(150deg, rgba(56, 189, 248, 0.8), rgba(129, 140, 248, 0.5) 45%, rgba(99, 102, 241, 0.28));
+  box-shadow: 0 20px 50px rgba(2, 8, 20, 0.4), 0 6px 20px rgba(56, 189, 248, 0.1);
+}
+.about-photo img {
+  border-radius: calc(var(--radius) - 5px);
 }
 .about-photo img {
   width: 100%;
@@ -569,12 +586,15 @@ a:hover { text-decoration: underline; }
 /* project images (if uploaded) */
 .project-img {
   width: 100%;
-  height: 160px;
+  height: 180px;
   object-fit: cover;
-  border-radius: 10px;
+  object-position: center 30%;
+  border-radius: 12px;
   margin-bottom: 14px;
   border: 1px solid var(--line);
+  transition: transform 0.4s ease;
 }
+.project-card:hover .project-img { transform: scale(1.04); }
 .project-card .project-icon { font-size: 1.7rem; margin-bottom: 12px; }
 
 /* ---------- Education ---------- */

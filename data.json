@@ -135,7 +135,7 @@
         "title": "Domain-Based Network Design & Implementation",
         "description": "Designed and deployed a robust domain-based infrastructure, enabling centralized data management, stable network performance, and streamlined resource sharing across departments — supporting overall business continuity.",
         "highlight": "",
-        "image": ""
+        "image": "assets/proj-network.jpg"
       },
       {
         "id": "proj-2",
@@ -159,7 +159,7 @@
         "title": "VMware ESXi Virtualization Deployment",
         "description": "Led deployment and ongoing management of VMware ESXi environments, increasing server resource efficiency by {highlight} and cutting hardware costs by 20% through optimized virtualization.",
         "highlight": "30%",
-        "image": ""
+        "image": "assets/proj-vmware.jpg"
       },
       {
         "id": "proj-5",
@@ -167,7 +167,7 @@
         "title": "Network Infrastructure Maintenance & Uptime Assurance",
         "description": "Oversaw company network infrastructure for over a decade, achieving {highlight} uptime and ensuring reliable, uninterrupted service for daily operations.",
         "highlight": "99.9%",
-        "image": ""
+        "image": "assets/proj-security.jpg"
       }
     ]
   },
