@@ -63,8 +63,16 @@ a:hover { text-decoration: underline; }
   justify-content: space-between;
   gap: 14px;
 }
-.brand { font-weight: 800; font-size: 1.25rem; color: var(--text); }
-.brand:hover { text-decoration: none; }
+.brand {
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: 0.02em;
+  background: var(--accent-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.brand:hover { text-decoration: none; filter: brightness(1.12); }
 .brand-dot { color: var(--accent); }
 
 .nav-list {
