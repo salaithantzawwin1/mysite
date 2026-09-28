@@ -175,48 +175,20 @@ a:hover { text-decoration: underline; }
 .hero-stats span { color: var(--muted); font-size: 0.9rem; }
 
 .hero-photo { display: flex; justify-content: center; }
-.photo-ring {
-  position: relative;
-  padding: 6px;
-  border-radius: 24px;
-  background: var(--accent-grad);
-}
-.photo-ring::before,
-.photo-ring::after {
-  content: "";
-  position: absolute;
-  inset: -14px;
-  border: 2px solid rgba(56, 189, 248, 0.25);
-  border-radius: 32px;
-}
-.photo-ring::after { inset: -28px; border-color: rgba(129, 140, 248, 0.15); }
 
-/* Monogram avatar (replaces the profile photo) — circular, modern */
-.monogram-ring { padding: 7px; border-radius: 50%; }
-.monogram-ring::before,
-.monogram-ring::after { border-radius: 50%; }
+/* Monogram avatar — clean single circle, no rings */
 .monogram-avatar {
-  width: min(280px, 64vw);
+  width: min(210px, 50vw);
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   background:
-    radial-gradient(120px 120px at 30% 22%, rgba(255, 255, 255, 0.3), transparent 55%),
+    radial-gradient(110px 110px at 30% 22%, rgba(255, 255, 255, 0.28), transparent 55%),
     conic-gradient(from 210deg, #38bdf8, #818cf8, #6366f1, #38bdf8);
   display: grid;
   place-items: center;
-  box-shadow:
-    inset 0 2px 6px rgba(255, 255, 255, 0.35),
-    inset 0 -16px 34px rgba(11, 18, 32, 0.35),
-    0 22px 60px rgba(56, 189, 248, 0.28);
+  box-shadow: 0 14px 36px rgba(56, 189, 248, 0.2);
   overflow: hidden;
-}
-.monogram-avatar::after {
-  content: "";
-  position: absolute;
-  inset: 10px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(255, 255, 255, 0.35);
-  pointer-events: none;
+  position: relative;
 }
 .monogram-avatar span {
   font-family: "Sora", sans-serif;
@@ -239,8 +211,6 @@ a:hover { text-decoration: underline; }
 }
 .monogram-avatar img[hidden] { display: none; }
 .monogram-avatar.has-photo { background: var(--card); }
-.monogram-avatar.has-photo::after { border-color: rgba(56, 189, 248, 0.5); }
-.monogram-avatar { position: relative; }
 
 /* Availability badge */
 .availability-badge {
@@ -746,8 +716,7 @@ html[data-theme="light"] .skill-group li {
 @media (max-width: 900px) {
   .hero-grid, .about-grid { grid-template-columns: 1fr; }
   .hero-photo { order: -1; }
-  .photo-ring { width: fit-content; margin-inline: auto; }
-  .photo-ring img { width: min(250px, 62vw); }
+  .monogram-avatar { width: min(180px, 46vw); }
   .hero { padding-top: calc(var(--nav-h) + 24px); }
 }
 
