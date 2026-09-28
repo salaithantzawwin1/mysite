@@ -64,12 +64,29 @@
     $("#heroName").textContent = data.profile.name;
     $("#heroSummary").textContent = data.profile.summary;
 
-    // Monogram avatar (photo no longer used on the hero)
+    // Monogram avatar — shows uploaded photo when set, initials otherwise
     var words = data.profile.name.split(/\s+/).filter(Boolean);
     var initials = ((words[0] || "")[0] || "") + ((words[words.length - 1] || "")[0] || "");
     initials = initials.toUpperCase() || "ME";
     var mono = $("#heroMonogram");
-    if (mono) mono.querySelector("span").textContent = initials;
+    if (mono) {
+      mono.querySelector("span").textContent = initials;
+      var photo = $("#heroPhoto");
+      var photoUrl = (data.profile.photo || "").trim();
+      if (photoUrl) {
+        photo.src = photoUrl;
+        photo.hidden = false;
+        mono.classList.add("has-photo");
+        photo.onerror = function () {
+          photo.hidden = true;
+          mono.classList.remove("has-photo");
+        };
+      } else {
+        photo.hidden = true;
+        photo.removeAttribute("src");
+        mono.classList.remove("has-photo");
+      }
+    }
     $("#brandName").innerHTML = esc(initials[0]) + '<span class="brand-dot">.</span>' + esc(initials.slice(1));
 
     // Availability badge

@@ -204,6 +204,11 @@
           '<textarea rows="5" id="rolesBox">' + esc((p.roles || []).join("\n")) + "</textarea></div>" +
         '<label class="field checkline"><input type="checkbox" id="availableToggle"' + (p.available ? " checked" : "") + '> Show "Open to opportunities" badge on the hero</label>' +
         getField(p, "availableText", "Badge text (when enabled)") +
+        "</div>" +
+        '<div class="panel"><h2>Profile photo (optional)</h2>' +
+        '<p class="hint">Shown inside the circular avatar. Leave empty to display the initials monogram instead.</p>' +
+        getField(p, "photo", "Profile photo URL") +
+        '<div class="upload-row"><input type="file" accept="image/*" id="heroPhotoFile"><span class="hint">Upload new profile photo</span></div>' +
         "</div>";
 
       html += '<div class="panel"><h2>Hero statistics</h2><p class="hint">Numbers count up when the page loads.</p><div class="editor-list" id="statList"></div>' +
@@ -253,6 +258,23 @@
       if (avToggle) {
         avToggle.addEventListener("change", function () {
           p.available = this.checked;
+        });
+      }
+
+      // photo upload
+      var photoInput = document.getElementById("heroPhotoFile");
+      if (photoInput) {
+        photoInput.addEventListener("change", function () {
+          var file = this.files[0];
+          if (!file) return;
+          var fd = new FormData();
+          fd.append("file", file);
+          fetch("/api/upload", { method: "POST", headers: { Authorization: "Bearer " + TOKEN }, body: fd })
+            .then(function (r) { return r.json(); })
+            .then(function (j) {
+              if (j.url) { p.photo = j.url; toast("Photo uploaded"); renderTab(); }
+              else toast(j.error || "Upload failed", true);
+            });
         });
       }
 

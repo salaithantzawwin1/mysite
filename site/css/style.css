@@ -228,6 +228,20 @@ a:hover { text-decoration: underline; }
   user-select: none;
 }
 
+/* Uploaded photo fills the circular avatar */
+.monogram-avatar img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.monogram-avatar img[hidden] { display: none; }
+.monogram-avatar.has-photo { background: var(--card); }
+.monogram-avatar.has-photo::after { border-color: rgba(56, 189, 248, 0.5); }
+.monogram-avatar { position: relative; }
+
 /* Availability badge */
 .availability-badge {
   display: inline-flex;
