@@ -268,7 +268,10 @@
       } else socialRow.hidden = true;
     }
     var footerSocial = $("#footerSocial");
-    if (footerSocial) footerSocial.innerHTML = socials.map(socialBtn).join("");
+    if (footerSocial) {
+      footerSocial.innerHTML = socials.map(socialBtn).join("");
+      footerSocial.hidden = !socials.length;
+    }
 
     // Footer year
     $("#year").textContent = new Date().getFullYear();
@@ -352,7 +355,8 @@
         return;
       }
       submit.disabled = true;
-      status.textContent = "Sending…";
+      submit.textContent = "Sending…";
+      status.textContent = "";
       status.className = "form-status";
       var payload = {
         access_key: key,
@@ -370,9 +374,7 @@
         .then(function (r) { return r.json(); })
         .then(function (j) {
           if (j.success) {
-            status.textContent = "Thank you! Your message has been sent.";
-            status.className = "form-status ok";
-            form.reset();
+            showFormSuccess();
           } else {
             status.textContent = j.message || "Sending failed — please email directly instead.";
             status.className = "form-status err";
@@ -382,8 +384,31 @@
           status.textContent = "Sending failed — please email directly instead.";
           status.className = "form-status err";
         })
-        .finally(function () { submit.disabled = false; });
+        .finally(function () { submit.disabled = false; submit.textContent = "Send message"; });
     });
+
+    function showFormSuccess() {
+      var done = document.createElement("div");
+      done.className = "form-success";
+      done.innerHTML =
+        '<div class="form-success-icon" aria-hidden="true">' +
+          '<svg viewBox="0 0 52 52" width="56" height="56"><circle class="fs-circle" cx="26" cy="26" r="24" fill="none"/><path class="fs-check" fill="none" d="M14 27l8 8 16-17"/></svg>' +
+        "</div>" +
+        '<h4 class="form-success-title">Message sent!</h4>' +
+        '<p class="form-success-text">Thank you for reaching out — I will get back to you as soon as possible, usually within a day or two.</p>' +
+        '<button type="button" class="btn btn-outline btn-sm" id="formAgainBtn">Send another message</button>';
+      form.style.display = "none";
+      form.parentElement.appendChild(done);
+      var again = done.querySelector("#formAgainBtn");
+      again.addEventListener("click", function () {
+        done.remove();
+        form.reset();
+        form.style.display = "";
+        status.textContent = "";
+        status.className = "form-status";
+        form.querySelector("input[name=name]").focus();
+      });
+    }
   }
 
   /* ---------- nav behaviours (static, run once) ---------- */
