@@ -122,10 +122,11 @@ a:hover { text-decoration: underline; }
   position: relative;
   min-height: 100vh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   overflow: hidden;
   padding: calc(var(--nav-h) + 40px) 0 48px;
 }
+.hero-grid { padding-top: 24px; }
 .hero-bg {
   position: absolute;
   inset: 0;
