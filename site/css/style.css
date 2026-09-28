@@ -116,7 +116,7 @@ a:hover { text-decoration: underline; }
   display: flex;
   align-items: center;
   overflow: hidden;
-  padding: calc(var(--nav-h) + 40px) 0 80px;
+  padding: calc(var(--nav-h) + 40px) 0 48px;
 }
 .hero-bg {
   position: absolute;
