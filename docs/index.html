@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salai Thant Zaw Win — Portfolio CMS</title>
+<style>
+  :root {
+    --bg: #0b0f1a;
+    --card: #111827;
+    --border: #1f2937;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --accent: #38bdf8;
+    --accent2: #818cf8;
+    --green: #34d399;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: radial-gradient(1200px 600px at 80% -10%, #1e293b 0%, var(--bg) 60%);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .wrap { max-width: 760px; width: 100%; }
+  .repo-header {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 14px; color: var(--muted); margin-bottom: 18px;
+  }
+  .repo-header b { color: var(--text); }
+  h1 {
+    font-size: clamp(26px, 5vw, 40px);
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 10px;
+  }
+  .tagline { color: var(--muted); font-size: 16px; line-height: 1.6; margin-bottom: 22px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+  .badge {
+    font-size: 12px; font-weight: 600; letter-spacing: .3px;
+    padding: 5px 12px; border-radius: 999px;
+    border: 1px solid var(--border); background: var(--card);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 26px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 18px;
+    transition: transform .15s ease, border-color .15s ease;
+    text-decoration: none; color: inherit; display: block;
+  }
+  .card:hover { transform: translateY(-3px); border-color: var(--accent); }
+  .card h3 { font-size: 15px; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .card p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .card .url { font-size: 12px; color: var(--accent); margin-top: 8px; word-break: break-all; }
+  .status-row {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 16px 18px; margin-bottom: 26px;
+  }
+  .status-row h3 { font-size: 14px; margin-bottom: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; }
+  .checks { display: grid; gap: 8px; font-size: 14px; }
+  .checks div { display: flex; align-items: center; gap: 10px; }
+  .ok { color: var(--green); font-weight: 700; }
+  footer { font-size: 12px; color: var(--muted); text-align: center; }
+  footer a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="repo-header">📦 <b>salaithantzawwin1/mysite</b> · main branch</div>
+  <h1>Salai Thant Zaw Win — Portfolio CMS</h1>
+  <p class="tagline">
+    Portfolio website with a full admin panel: add, edit, reorder and delete
+    every section of the public site — with image &amp; PDF uploads — running on
+    Vercel serverless functions + Vercel Blob storage.
+  </p>
+
+  <div class="badges">
+    <span class="badge"><span class="dot"></span> PRODUCTION LIVE</span>
+    <span class="badge">▲ Vercel</span>
+    <span class="badge">Storage: Vercel Blob</span>
+    <span class="badge">API: 5 serverless endpoints</span>
+    <span class="badge">CMS: full CRUD</span>
+  </div>
+
+  <div class="grid">
+    <a class="card" href="https://mysite-mu-sand-49.vercel.app/" target="_blank" rel="noopener">
+      <h3>🌐 Public site</h3>
+      <p>The portfolio — hero, experience, projects, skills, certifications, contact.</p>
+      <div class="url">mysite-mu-sand-49.vercel.app</div>
+    </a>
+    <a class="card" href="https://mysite-mu-sand-49.vercel.app/admin" target="_blank" rel="noopener">
+      <h3>⚙️ Admin panel</h3>
+      <p>Manage all content. Credentials are set as Vercel environment variables.</p>
+      <div class="url">mysite-mu-sand-49.vercel.app/admin</div>
+    </a>
+    <a class="card" href="https://mysite-mu-sand-49.vercel.app/api/content" target="_blank" rel="noopener">
+      <h3>🔌 Content API</h3>
+      <p>GET /api/content — JSON powering the site; PUT (auth) saves edits to Blob.</p>
+      <div class="url">/api/content</div>
+    </a>
+    <a class="card" href="https://github.com/salaithantzawwin1/mysite" target="_blank" rel="noopener">
+      <h3>📦 Repository</h3>
+      <p>Push to <b>main</b> → Vercel auto-deploys in ~10 seconds.</p>
+      <div class="url">github.com/salaithantzawwin1/mysite</div>
+    </a>
+  </div>
+
+  <div class="status-row">
+    <h3>Deployment status</h3>
+    <div class="checks">
+      <div><span class="ok">●</span> Production deployment: <b>&nbsp;Ready</b></div>
+      <div><span class="ok">●</span> Vercel Blob store: <b>&nbsp;mysite-blob (public, IAD1)</b></div>
+      <div><span class="ok">●</span> Env vars: <b>&nbsp;ADMIN_USERNAME · ADMIN_PASSWORD · CMS_SECRET</b></div>
+      <div><span class="ok">●</span> End-to-end checks: <b>&nbsp;login · save · upload · delete — all passing</b></div>
+    </div>
+  </div>
+
+  <footer>
+    Auto-generated landing page · opens locally from <code>docs/index.html</code> ·
+    <a href="https://vercel.com/salaithantzawwin-2787/mysite" target="_blank" rel="noopener">Vercel dashboard ↗</a>
+  </footer>
+</div>
+</body>
+</html>

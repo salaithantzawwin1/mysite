@@ -1,5 +1,13 @@
 # Salai Thant Zaw Win — Portfolio + CMS (Vercel-ready)
 
+![Status](https://img.shields.io/badge/status-live-brightgreen)
+![Vercel](https://img.shields.io/badge/deployed%20on-Vercel-black?logo=vercel)
+![Storage](https://img.shields.io/badge/storage-Vercel%20Blob-blue)
+![License](https://img.shields.io/badge/license-private-orange)
+
+**Live site:** https://mysite-mu-sand-49.vercel.app
+**Admin panel:** https://mysite-mu-sand-49.vercel.app/admin
+
 Portfolio website with a built-in admin panel. Everything on the public site
 (profile, experience, projects, skills, certifications, education, contact,
 CV file) can be added, edited, reordered and deleted from the admin panel —
@@ -32,6 +40,10 @@ Works in two modes with the **same frontend**:
 5. **Redeploy**. Your site is live:
    - Public: `https://<your-project>.vercel.app/`
    - Admin:  `https://<your-project>.vercel.app/admin`
+
+> Admin credentials are stored as Vercel environment variables
+> (`ADMIN_USERNAME` / `ADMIN_PASSWORD`) — they are never committed to this
+> repository. Update them in the Vercel dashboard, then redeploy.
 
 ## Local development
 
@@ -67,4 +79,5 @@ admin/        Admin panel (single page app)
 data.json     Seed content (local mode) — Vercel keeps a Blob copy
 server.py     Local dev server mirroring the Vercel API
 vercel.json   Routing config
+docs/         GitHub Pages-style landing page (open docs/index.html)
 ```
