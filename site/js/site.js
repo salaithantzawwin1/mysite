@@ -65,8 +65,9 @@
     $("#heroSummary").textContent = data.profile.summary;
 
     // Monogram avatar — shows uploaded photo when set, initials otherwise
+    // Initials = first letter of EVERY word (Salai Thant Zaw Win -> STZW)
     var words = data.profile.name.split(/\s+/).filter(Boolean);
-    var initials = ((words[0] || "")[0] || "") + ((words[words.length - 1] || "")[0] || "");
+    var initials = words.map(function (w) { return (w[0] || ""); }).join("");
     initials = initials.toUpperCase() || "ME";
     var mono = $("#heroMonogram");
     if (mono) {
@@ -87,7 +88,7 @@
         mono.classList.remove("has-photo");
       }
     }
-    $("#brandName").innerHTML = esc(initials[0]) + '<span class="brand-dot">.</span>' + esc(initials.slice(1));
+    $("#brandName").textContent = initials;
 
     // Availability badge
     var av = $("#availabilityBadge");
