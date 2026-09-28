@@ -139,12 +139,28 @@
       );
     }).join("");
 
-    // Skills
+    // Skills — grouped (if skillGroups defined) + full list
     $("#skillKicker").textContent = data.skills.kicker;
     $("#skillTitle").textContent = data.skills.title;
     $("#skillGrid").innerHTML = (data.skills.items || []).map(function (s) {
       return '<div class="card skill-card reveal"><span class="skill-icon">' + esc(s.icon || "•") + "</span><h3>" + esc(s.name) + "</h3></div>";
     }).join("");
+    var groups = data.skills.groups || [];
+    var groupsEl = $("#skillGroups");
+    if (groupsEl) {
+      groupsEl.innerHTML = groups.map(function (g, gi) {
+        return (
+          '<div class="skill-group reveal' + (gi % 4 === 1 ? " delay-1" : gi % 4 === 2 ? " delay-2" : gi % 4 === 3 ? " delay-3" : "") + '">' +
+            "<h3>" + esc(g.name) + "</h3><ul>" +
+            (g.items || []).map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") +
+          "</ul></div>"
+        );
+      }).join("");
+      if (!groups.length) {
+        $("#skillsHint").textContent = "";
+        groupsEl.style.display = "none";
+      }
+    }
 
     // Certifications
     $("#certKicker").textContent = data.certifications.kicker;
@@ -185,6 +201,18 @@
     $("#contactKicker").textContent = data.contact.kicker;
     $("#contactTitle").textContent = data.contact.title;
     $("#contactLead").textContent = data.contact.lead;
+
+    // Contact form (Web3Forms) — shown only when a key is set in admin
+    var formWrap = $("#contactFormWrap");
+    if (formWrap) {
+      var key = (data.contact.formKey || "").trim();
+      if (key) {
+        $("#web3formsKey").value = key;
+        if (data.contact.formTitle) $("#contactFormTitle").textContent = data.contact.formTitle;
+        formWrap.hidden = false;
+      }
+    }
+
     $("#contactCards").innerHTML = (data.contact.cards || []).map(function (c, i) {
       return (
         '<a class="card contact-card reveal' + (i % 3 === 1 ? " delay-1" : i % 3 === 2 ? " delay-2" : "") + '" href="' + esc(c.link || "#") + '">' +
@@ -238,6 +266,78 @@
     }
   }
 
+  /* ---------- theme toggle (static, run once) ---------- */
+  function initTheme() {
+    var btn = document.getElementById("themeToggle");
+    if (!btn) return;
+    function current() {
+      return document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
+    }
+    function paint() { btn.textContent = current() === "light" ? "☀️" : "🌙"; }
+    btn.addEventListener("click", function () {
+      var next = current() === "light" ? "dark" : "light";
+      if (next === "light") document.documentElement.setAttribute("data-theme", "light");
+      else document.documentElement.removeAttribute("data-theme");
+      try { localStorage.setItem("theme", next); } catch (e) {}
+      paint();
+    });
+    paint();
+  }
+
+  /* ---------- contact form (static, run once) ---------- */
+  function initContactForm() {
+    var form = document.getElementById("contactForm");
+    if (!form) return;
+    var status = document.getElementById("formStatus");
+    var submit = document.getElementById("formSubmit");
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!form.checkValidity()) {
+        status.textContent = "Please fill in your name, email and message.";
+        status.className = "form-status err";
+        return;
+      }
+      var key = (document.getElementById("web3formsKey") || {}).value || "";
+      if (!key) {
+        status.textContent = "Form is not configured yet.";
+        status.className = "form-status err";
+        return;
+      }
+      submit.disabled = true;
+      status.textContent = "Sending…";
+      status.className = "form-status";
+      var payload = {
+        access_key: key,
+        subject: "Portfolio contact form — new message",
+        from_name: form.name.value,
+        replyto: form.email.value,
+        message: form.message.value,
+        botcheck: form.botcheck ? form.botcheck.checked : false,
+      };
+      fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(payload),
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (j) {
+          if (j.success) {
+            status.textContent = "Thank you! Your message has been sent.";
+            status.className = "form-status ok";
+            form.reset();
+          } else {
+            status.textContent = j.message || "Sending failed — please email directly instead.";
+            status.className = "form-status err";
+          }
+        })
+        .catch(function () {
+          status.textContent = "Sending failed — please email directly instead.";
+          status.className = "form-status err";
+        })
+        .finally(function () { submit.disabled = false; });
+    });
+  }
+
   /* ---------- nav behaviours (static, run once) ---------- */
   function initNav() {
     var header = document.querySelector(".site-header");
@@ -281,6 +381,8 @@
   }
 
   /* ---------- boot ---------- */
+  initTheme();
+  initContactForm();
   initNav();
   fetch("/api/content")
     .then(function (r) { return r.json(); })

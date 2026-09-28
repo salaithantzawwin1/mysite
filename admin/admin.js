@@ -427,8 +427,56 @@
       var sec = DATA.skills;
       $("#main").innerHTML = '<div class="panel"><h2>Skills section</h2><div class="field-row">' +
         getField(sec, "kicker", "Kicker") + getField(sec, "title", "Title") + "</div></div>" +
-        '<div class="panel"><h2>Skill cards</h2><div class="editor-list" id="skillList"></div>' +
+        '<div class="panel"><h2>Skill groups (shown as category boxes)</h2>' +
+        '<p class="hint">Each group is a box with a heading and comma-separated items. Leave all empty to hide groups.</p>' +
+        '<div class="editor-list" id="groupList"></div>' +
+        '<button class="btn btn-ghost btn-sm" id="addGroup">+ Add group</button></div>' +
+        '<div class="panel"><h2>Skill cards (full list below the groups)</h2><div class="editor-list" id="skillList"></div>' +
         '<button class="btn btn-ghost btn-sm" id="addSkill">+ Add skill</button></div>';
+
+      function drawGroups() {
+        $("#groupList").innerHTML = (sec.groups || []).map(function (g, i) {
+          return '<div class="editor-item">' +
+            '<div class="editor-item-head"><span class="title">' + esc(g.name || "Group") + "</span>" +
+              '<div class="editor-item-actions">' +
+                '<button class="icon-btn" data-gup="' + i + '">↑</button>' +
+                '<button class="icon-btn" data-gdown="' + i + '">↓</button>' +
+                '<button class="icon-btn danger" data-gdel="' + i + '">Delete</button>' +
+              "</div></div>" +
+            '<div class="field-row">' +
+              '<label class="field">Group name<input data-grp="' + i + '" data-gk="name" value="' + esc(g.name || "") + '"></label>' +
+            "</div>" +
+            '<label class="field">Items (comma separated)<input data-grp="' + i + '" data-gk="itemsText" value="' + esc((g.items || []).join(", ")) + '"></label>' +
+            "</div>";
+        }).join("");
+      }
+      var glist = $("#groupList");
+      glist.addEventListener("input", function (e) {
+        var t = e.target;
+        if (t.dataset.grp == null) return;
+        var g = sec.groups[+t.dataset.grp];
+        if (t.dataset.gk === "itemsText") {
+          g.items = t.value.split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+        } else {
+          g[t.dataset.gk] = t.value;
+        }
+      });
+      glist.addEventListener("click", function (e) {
+        var b;
+        if ((b = e.target.closest("[data-gdel]"))) { sec.groups.splice(+b.dataset.gdel, 1); drawGroups(); }
+        else if ((b = e.target.closest("[data-gup]"))) {
+          var gi = +b.dataset.gup;
+          if (gi > 0) { var gt = sec.groups[gi - 1]; sec.groups[gi - 1] = sec.groups[gi]; sec.groups[gi] = gt; drawGroups(); }
+        } else if ((b = e.target.closest("[data-gdown]"))) {
+          var gi2 = +b.dataset.gdown;
+          if (gi2 < sec.groups.length - 1) { var gt2 = sec.groups[gi2 + 1]; sec.groups[gi2 + 1] = sec.groups[gi2]; sec.groups[gi2] = gt2; drawGroups(); }
+        }
+      });
+      $("#addGroup").addEventListener("click", function () {
+        if (!sec.groups) sec.groups = [];
+        sec.groups.push({ name: "New group", items: [] });
+        drawGroups();
+      });
 
       function draw() {
         $("#skillList").innerHTML = (sec.items || []).map(function (s, i) {
@@ -465,6 +513,7 @@
         draw();
       });
 
+      drawGroups();
       draw();
       bindFields($("#main"));
     },
@@ -579,6 +628,11 @@
       $("#main").innerHTML = '<div class="panel"><h2>Contact section</h2>' +
         '<div class="field-row">' + getField(sec, "kicker", "Kicker") + getField(sec, "title", "Title") + "</div>" +
         getField(sec, "lead", "Lead text", { type: "textarea", rows: 2 }) +
+        "</div>" +
+        '<div class="panel"><h2>Message form (optional)</h2>' +
+        '<p class="hint">Shows a "Send a message" form. Create a free access key at <a href="https://web3forms.com" target="_blank" rel="noopener">web3forms.com</a> (just enter your email — the key is sent to you), then paste it below. Leave empty to hide the form.</p>' +
+        getField(sec, "formTitle", "Form heading") +
+        getField(sec, "formKey", "Web3Forms access key") +
         "</div>" +
         '<div class="panel"><h2>Contact cards</h2><div class="editor-list" id="conList"></div>' +
         '<button class="btn btn-ghost btn-sm" id="addCon">+ Add contact card</button></div>';

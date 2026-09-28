@@ -219,6 +219,48 @@
         "icon": "📦",
         "name": "Virtualization"
       }
+    ],
+    "groups": [
+      {
+        "name": "Infrastructure",
+        "items": [
+          "Windows Server",
+          "Active Directory",
+          "Group Policy",
+          "Exchange 2010/2013",
+          "Backup & DR",
+          "Patch management"
+        ]
+      },
+      {
+        "name": "Network",
+        "items": [
+          "Cisco routers/switches",
+          "Mikrotik / Ruijie",
+          "VLANs & routing",
+          "LAN/WAN design",
+          "ISP management"
+        ]
+      },
+      {
+        "name": "Security",
+        "items": [
+          "FortiGate firewalls",
+          "Firewall policies",
+          "IDS",
+          "Access control",
+          "Remote access (VPN)"
+        ]
+      },
+      {
+        "name": "Virtualization",
+        "items": [
+          "VMware ESXi",
+          "Resource optimization",
+          "Server consolidation",
+          "Capacity planning"
+        ]
+      }
     ]
   },
   "certifications": {
@@ -301,7 +343,9 @@
         "value": "2A (501), Mudita Housing 2, Insein, Yangon, Myanmar",
         "link": "https://www.google.com/maps/search/?api=1&query=Insein%2C+Yangon%2C+Myanmar"
       }
-    ]
+    ],
+    "formTitle": "Send a message",
+    "formKey": ""
   },
   "footer": {
     "text": "Salai Thant Zaw Win. All rights reserved.",

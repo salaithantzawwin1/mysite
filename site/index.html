@@ -10,6 +10,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    // Apply saved theme before first paint (prevents flash)
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light") document.documentElement.setAttribute("data-theme", "light");
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
 
@@ -28,6 +37,7 @@
         <li><a href="#certs" class="nav-link">Certifications</a></li>
         <li><a href="#contact" class="nav-link">Contact</a></li>
       </ul>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">🌙</button>
     </nav>
   </header>
 
@@ -91,6 +101,8 @@
     <div class="container">
       <p class="kicker reveal" id="skillKicker">Toolkit</p>
       <h2 class="section-title reveal" id="skillTitle">Skills</h2>
+      <p class="skills-hint reveal" id="skillsHint">Skills are grouped by category below; the full list follows.</p>
+      <div class="skill-groups" id="skillGroups"></div>
       <div class="skills-grid" id="skillGrid"></div>
     </div>
   </section>
@@ -120,6 +132,20 @@
       <h2 class="section-title reveal" id="contactTitle">Contact</h2>
       <p class="contact-lead reveal" id="contactLead"></p>
       <div class="contact-cards" id="contactCards"></div>
+      <div class="contact-form-wrap reveal" id="contactFormWrap" hidden>
+        <h3 class="contact-form-title" id="contactFormTitle">Send a message</h3>
+        <form class="contact-form" id="contactForm" novalidate>
+          <div class="form-row">
+            <label class="field">Name<input type="text" name="name" required placeholder="Your name"></label>
+            <label class="field">Email<input type="email" name="email" required placeholder="you@example.com"></label>
+          </div>
+          <label class="field">Message<textarea name="message" rows="5" required placeholder="How can I help?"></textarea></label>
+          <input type="hidden" name="access_key" id="web3formsKey">
+          <input type="checkbox" name="botcheck" class="hidden-hp" tabindex="-1" autocomplete="off">
+          <button type="submit" class="btn btn-primary" id="formSubmit">Send message</button>
+          <p class="form-status" id="formStatus" role="status"></p>
+        </form>
+      </div>
     </div>
   </section>
 
