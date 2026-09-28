@@ -280,21 +280,42 @@
     var visitBadge = $("#visitBadge");
     if (visitBadge) {
       var ping = false;
-      try { ping = !sessionStorage.getItem("visited"); } catch (e) {}
-      fetch("/api/visit" + (ping ? "?increment" : ""))
-        .then(function (r) { return r.json(); })
-        .then(function (j) {
-          if (j && j.total != null) {
-            $("#visitCount").textContent = compactNumber(j.total);
-            visitBadge.hidden = false;
-            try { sessionStorage.setItem("visited", "1"); } catch (e) {}
-          }
-        })
-        .catch(function () {});
+      var notrack = false;
+      try {
+        ping = !sessionStorage.getItem("visited");
+        // Secret opt-out: owner visits aren't counted. Enable once:
+        //   https://<site>/?notrack=1   (persists in localStorage), disable: ?track=1
+        var qs = new URLSearchParams(location.search);
+        if (qs.has("notrack")) { localStorage.setItem("stzw_notrack", "1"); notrack = true; }
+        else if (qs.has("track")) { localStorage.removeItem("stzw_notrack"); }
+        else { notrack = !!localStorage.getItem("stzw_notrack"); }
+      } catch (e) {}
+      if (notrack) {
+        visitBadge.hidden = false;
+        fetch("/api/visit")
+          .then(function (r) { return r.json(); })
+          .then(function (j) {
+            if (j && j.total != null) $("#visitCount").textContent = compactNumber(j.total);
+          })
+          .catch(function () {});
+      } else {
+        fetch("/api/visit" + (ping ? "?increment" : ""))
+          .then(function (r) { return r.json(); })
+          .then(function (j) {
+            if (j && j.total != null) {
+              $("#visitCount").textContent = compactNumber(j.total);
+              visitBadge.hidden = false;
+              try { sessionStorage.setItem("visited", "1"); } catch (e) {}
+            }
+          })
+          .catch(function () {});
+      }
     }
 
     // Section view tracking (privacy-friendly counters, no cookies/IPs)
-    trackSectionViews();
+    var noTrackSections = false;
+    try { noTrackSections = !!localStorage.getItem("stzw_notrack"); } catch (e) {}
+    if (!noTrackSections) trackSectionViews();
 
     // CV button visibility
     var cvBtn = $("#cvBtn");

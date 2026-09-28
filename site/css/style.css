@@ -632,6 +632,7 @@ a:hover { text-decoration: underline; }
 /* ---------- Social links ---------- */
 .social-row {
   display: flex;
+  justify-content: center;
   gap: 14px;
   margin-top: 30px;
 }
@@ -683,12 +684,13 @@ a:hover { text-decoration: underline; }
 
 /* ---------- Contact form ---------- */
 .contact-form-wrap {
-  margin-top: 44px;
+  width: 100%;
+  max-width: 720px;
+  margin: 44px auto 0;
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 30px;
-  max-width: 640px;
 }
 .contact-form-title { font-size: 1.15rem; margin-bottom: 18px; }
 .contact-form { display: grid; gap: 14px; }
