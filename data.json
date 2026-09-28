@@ -345,6 +345,18 @@
         "link": "https://www.google.com/maps/search/?api=1&query=Insein%2C+Yangon%2C+Myanmar"
       }
     ],
+    "socials": [
+      {
+        "id": "soc-1",
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/salaithantzawwin/"
+      },
+      {
+        "id": "soc-2",
+        "label": "Facebook",
+        "url": "https://www.facebook.com/salaithantzawwin"
+      }
+    ],
     "formTitle": "Send a message",
     "formKey": ""
   },

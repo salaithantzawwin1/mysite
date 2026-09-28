@@ -679,7 +679,10 @@
         getField(sec, "formKey", "Web3Forms access key") +
         "</div>" +
         '<div class="panel"><h2>Contact cards</h2><div class="editor-list" id="conList"></div>' +
-        '<button class="btn btn-ghost btn-sm" id="addCon">+ Add contact card</button></div>';
+        '<button class="btn btn-ghost btn-sm" id="addCon">+ Add contact card</button></div>' +
+        '<div class="panel"><h2>Social links</h2><p class="hint">Shown as icon buttons in the Contact section and footer. Label "LinkedIn" or "Facebook" shows the official icon automatically.</p>' +
+        '<div class="editor-list" id="socList"></div>' +
+        '<button class="btn btn-ghost btn-sm" id="addSoc">+ Add social link</button></div>';
 
       function draw() {
         $("#conList").innerHTML = (sec.cards || []).map(function (c, i) {
@@ -720,7 +723,46 @@
         draw();
       });
 
+      function drawSocs() {
+        var socs = sec.socials || (sec.socials = []);
+        $("#socList").innerHTML = socs.map(function (s, i) {
+          return '<div class="editor-item">' +
+            '<div class="editor-item-head"><span class="title">' + esc(s.label || "Social link") + "</span>" +
+              '<div class="editor-item-actions">' +
+                '<button class="icon-btn" data-soup="' + i + '">↑</button>' +
+                '<button class="icon-btn" data-sodown="' + i + '">↓</button>' +
+                '<button class="icon-btn danger" data-sodel="' + i + '">Delete</button>' +
+              "</div></div>" +
+            '<div class="field-row">' +
+              '<label class="field">Label<input data-so="' + i + '" data-sk="label" value="' + esc(s.label || "") + '"></label>' +
+              '<label class="field">URL<input data-so="' + i + '" data-sk="url" value="' + esc(s.url || "") + '" placeholder="https://…"></label>' +
+            "</div>" +
+            "</div>";
+        }).join("") || '<p class="hint">No social links yet.</p>';
+      }
+      var socList = $("#socList");
+      socList.addEventListener("input", function (e) {
+        var t = e.target;
+        if (t.dataset.so != null) (sec.socials || [])[+t.dataset.so][t.dataset.sk] = t.value;
+      });
+      socList.addEventListener("click", function (e) {
+        var b, socs = sec.socials || [];
+        if ((b = e.target.closest("[data-sodel]"))) { socs.splice(+b.dataset.sodel, 1); drawSocs(); }
+        else if ((b = e.target.closest("[data-soup]"))) {
+          var i = +b.dataset.soup;
+          if (i > 0) { var t = socs[i - 1]; socs[i - 1] = socs[i]; socs[i] = t; drawSocs(); }
+        } else if ((b = e.target.closest("[data-sodown]"))) {
+          var i2 = +b.dataset.sodown;
+          if (i2 < socs.length - 1) { var t2 = socs[i2 + 1]; socs[i2 + 1] = socs[i2]; socs[i2] = t2; drawSocs(); }
+        }
+      });
+      $("#addSoc").addEventListener("click", function () {
+        (sec.socials || (sec.socials = [])).push({ id: uid("soc"), label: "LinkedIn", url: "" });
+        drawSocs();
+      });
+
       draw();
+      drawSocs();
       bindFields($("#main"));
     },
 
