@@ -197,7 +197,8 @@
     /* ---------------- HERO ---------------- */
     hero: function () {
       var p = DATA.profile;
-      var html = '<div class="panel"><h2>Hero &amp; Profile</h2>' +
+      var html = '<div class="panel stats-panel" id="statsPanel"><h2>📊 Site statistics</h2><p class="hint">Privacy-friendly counters — no cookies, no IPs. Updates as people visit the site.</p><div class="stats-grid" id="statsGrid"><div class="stat-card loading">Loading…</div></div></div>' +
+        '<div class="panel"><h2>Hero &amp; Profile</h2>' +
         '<div class="field-row">' + getField(p, "name", "Name") + getField(p, "kicker", "Kicker (small text above name)") + "</div>" +
         getField(p, "summary", "Summary", { type: "textarea", rows: 3 }) +
         '<div class="field"><label>Rotating role titles (one per line)</label>' +
@@ -279,6 +280,7 @@
       }
 
       bindFields($("#main"));
+      loadStatsPanel();
     },
 
     /* ---------------- ABOUT ---------------- */
@@ -840,6 +842,32 @@
 
   function renderTab() {
     (renderers[TAB] || renderers.hero)();
+  }
+
+  /* ---------------- site statistics panel ---------------- */
+  var SECTION_LABELS = {
+    home: "Home (hero)", about: "About", experience: "Experience", projects: "Projects",
+    skills: "Skills", certs: "Certifications", education: "Education", contact: "Contact"
+  };
+  function compactNumber(n) {
+    if (n >= 1000000) return (Math.floor(n / 100000) / 10).toFixed(1).replace(/\.0$/, "") + "M";
+    if (n >= 1000) return (Math.floor(n / 100) / 10).toFixed(1).replace(/\.0$/, "") + "k";
+    return String(n);
+  }
+  function loadStatsPanel() {
+    var grid = $("#statsGrid");
+    if (!grid) return;
+    api("/api/visit").then(function (s) {
+      var html = '<div class="stat-card big"><span class="stat-card-num">' + esc(compactNumber(s.total || 0)) + '</span><span class="stat-card-label">Total visits</span></div>';
+      var sections = s.sections || {};
+      var keys = Object.keys(SECTION_LABELS);
+      keys.forEach(function (k) {
+        html += '<div class="stat-card"><span class="stat-card-num">' + esc(compactNumber(sections[k] || 0)) + '</span><span class="stat-card-label">' + esc(SECTION_LABELS[k]) + '</span></div>';
+      });
+      grid.innerHTML = html;
+    }).catch(function () {
+      grid.innerHTML = '<div class="stat-card">Stats unavailable</div>';
+    });
   }
 
   // debug handle (used by automated tests)

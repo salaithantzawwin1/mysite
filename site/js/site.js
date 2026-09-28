@@ -276,7 +276,7 @@
     // Footer year
     $("#year").textContent = new Date().getFullYear();
 
-    // Visitor counter (once per browser session)
+    // Visitor counter (once per browser session) + friendly compact format
     var visitBadge = $("#visitBadge");
     if (visitBadge) {
       var ping = false;
@@ -285,7 +285,7 @@
         .then(function (r) { return r.json(); })
         .then(function (j) {
           if (j && j.total != null) {
-            $("#visitCount").textContent = j.total.toLocaleString();
+            $("#visitCount").textContent = compactNumber(j.total);
             visitBadge.hidden = false;
             try { sessionStorage.setItem("visited", "1"); } catch (e) {}
           }
@@ -293,12 +293,44 @@
         .catch(function () {});
     }
 
+    // Section view tracking (privacy-friendly counters, no cookies/IPs)
+    trackSectionViews();
+
     // CV button visibility
     var cvBtn = $("#cvBtn");
     cvBtn.style.display = data.footer.cvFile ? "" : "none";
     if (data.footer.cvFile) cvBtn.setAttribute("href", data.footer.cvFile);
 
     afterRender();
+  }
+
+  /* ---------- helpers ---------- */
+  function compactNumber(n) {
+    if (n >= 1000000) return (Math.floor(n / 100000) / 10).toFixed(1).replace(/\.0$/, "") + "M";
+    if (n >= 1000) return (Math.floor(n / 100) / 10).toFixed(1).replace(/\.0$/, "") + "k";
+    return String(n);
+  }
+
+  // Count one view per section per session when it scrolls into view
+  function trackSectionViews() {
+    var tracked = {};
+    try { tracked = JSON.parse(sessionStorage.getItem("sectionViews") || "{}"); } catch (e) {}
+    var ids = ["home", "about", "experience", "projects", "skills", "certs", "education", "contact"];
+    if (!("IntersectionObserver" in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var id = en.target.id;
+        if (!id || tracked[id]) return;
+        tracked[id] = 1;
+        try { sessionStorage.setItem("sectionViews", JSON.stringify(tracked)); } catch (e) {}
+        fetch("/api/visit?increment&section=" + id).catch(function () {});
+      });
+    }, { threshold: 0.25 });
+    ids.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) io.observe(el);
+    });
   }
 
   /* ---------- reveal + counters + typing ---------- */
