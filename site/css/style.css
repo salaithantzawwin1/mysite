@@ -286,7 +286,7 @@ a:hover { text-decoration: underline; }
 @keyframes bob { 50% { transform: translate(-50%, 8px); } }
 
 /* ---------- Sections ---------- */
-.section { padding: 96px 0; }
+.section { padding: 64px 0; }
 .section-alt {
   background: var(--bg-alt);
   border-block: 1px solid var(--line);
