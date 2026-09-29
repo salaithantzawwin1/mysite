@@ -79,8 +79,8 @@
         "current": true,
         "icon": "🖥️",
         "bullets": [
-          "Single point of contact for IT in a small organization: daily support, server/network issues, and urgent breakdowns with limited backup staff.",
-          "Secured systems with practical controls: firewall rules, access policies, and patching discipline appropriate for a small budget and real risk.",
+          "Single point of contact for all IT: daily support, server/network issues, and urgent breakdowns handled without a backup team.",
+          "Secured systems with practical controls: firewall rules, access policies, and patching discipline appropriate for the budget and real risk.",
           "Stretched hardware and licenses through virtualization (VMware ESXi) and consolidation to reduce cost while keeping performance acceptable.",
           "Owned backups and recovery: schedules, periodic checks, and documented restore steps so recovery isn't guesswork.",
           "Worked directly with users and managers: clear explanations, quick triage, and sensible priorities across departments.",
