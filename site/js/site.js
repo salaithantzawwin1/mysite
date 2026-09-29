@@ -176,8 +176,8 @@
     // Skills — grouped (if skillGroups defined) + full list
     $("#skillKicker").textContent = data.skills.kicker;
     $("#skillTitle").textContent = data.skills.title;
-    $("#skillGrid").innerHTML = (data.skills.items || []).map(function (s) {
-      return '<div class="card skill-card reveal"><span class="skill-icon">' + esc(s.icon || "•") + "</span><h3>" + esc(s.name) + "</h3></div>";
+    $("#skillGrid").innerHTML = (data.skills.items || []).map(function (s, i) {
+      return '<div class="card skill-card reveal' + (i % 4 === 1 ? " delay-1" : i % 4 === 2 ? " delay-2" : i % 4 === 3 ? " delay-3" : "") + '"><span class="skill-icon">' + esc(s.icon || "•") + "</span><h3>" + esc(s.name) + "</h3></div>";
     }).join("");
     var groups = data.skills.groups || [];
     var groupsEl = $("#skillGroups");
@@ -199,7 +199,7 @@
     // Certifications
     $("#certKicker").textContent = data.certifications.kicker;
     $("#certTitle").textContent = data.certifications.title;
-    $("#certGrid").innerHTML = (data.certifications.items || []).map(function (c) {
+    $("#certGrid").innerHTML = (data.certifications.items || []).map(function (c, ci) {
       var isPdf = /\.pdf(\?|$)/i.test(c.image || "");
       var isImg = c.image && !isPdf;
       var media;
@@ -214,7 +214,9 @@
         ? '<a class="cert-link" href="' + esc(c.image) + '" target="_blank" rel="noopener">' + esc(c.name) + " ↗</a>"
         : esc(c.name);
       return (
-        '<div class="card cert-card reveal' + (c.image ? " has-img" : "") + '">' + media +
+        '<div class="card cert-card reveal' + (c.image ? " has-img" : "") +
+          (ci % 4 === 1 ? " delay-1" : ci % 4 === 2 ? " delay-2" : ci % 4 === 3 ? " delay-3" : "") +
+        '">' + media +
           "<div><h3>" + nameHtml + "</h3><p>" + esc(c.issuer || "") + "</p></div>" +
         "</div>"
       );
