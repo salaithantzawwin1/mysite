@@ -679,13 +679,20 @@ button:focus-visible,
 .contact-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-  gap: 22px;
+  gap: 14px;
   margin-top: 34px;
 }
-.contact-card { display: block; color: var(--text); }
+.contact-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--text);
+  padding: 14px 18px;
+}
 .contact-card:hover { text-decoration: none; }
-.contact-card h3 { font-size: 1rem; margin-bottom: 6px; color: var(--accent); }
-.contact-card p { color: var(--muted); font-size: 0.92rem; word-break: break-word; }
+.contact-card .contact-icon { font-size: 1.35rem; margin: 0; flex-shrink: 0; }
+.contact-card h3 { font-size: 0.92rem; margin-bottom: 2px; color: var(--accent); }
+.contact-card p { color: var(--muted); font-size: 0.9rem; word-break: break-word; }
 
 /* ---------- Social links ---------- */
 .social-row {
