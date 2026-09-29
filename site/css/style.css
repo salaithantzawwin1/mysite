@@ -286,7 +286,7 @@ a:hover { text-decoration: underline; }
 @keyframes bob { 50% { transform: translate(-50%, 8px); } }
 
 /* ---------- Sections ---------- */
-.section { padding: 64px 0; }
+.section { padding: 48px 0; }
 .section-alt {
   background: var(--bg-alt);
   border-block: 1px solid var(--line);
@@ -617,7 +617,6 @@ a:hover { text-decoration: underline; }
 .edu-card p { color: var(--muted); font-size: 0.92rem; }
 
 /* ---------- Contact ---------- */
-.contact { padding-bottom: 110px; }
 .contact-lead { color: var(--muted); max-width: 60ch; margin-bottom: 34px; }
 .contact-cards {
   display: grid;
@@ -891,7 +890,7 @@ html[data-theme="light"] .skill-group li {
   .nav-link.active::after { display: none; }
 
   .hero-stats { gap: 26px; }
-  .section { padding: 72px 0; }
+  .section { padding: 40px 0; }
   .timeline { padding-left: 28px; }
   .timeline-badge { left: -28px; }
   .contact-form .form-row { grid-template-columns: 1fr; }

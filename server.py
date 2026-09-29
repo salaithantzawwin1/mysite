@@ -23,7 +23,7 @@ import secrets
 import threading
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import urlparse, parse_qs, unquote
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 DATA_FILE = os.path.join(ROOT, "data.json")
@@ -90,6 +90,22 @@ def save_content(data):
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
         os.replace(tmp, DATA_FILE)
+
+STATS_FILE = os.path.join(ROOT, "stats.json")
+
+def load_stats():
+    try:
+        with open(STATS_FILE, "r", encoding="utf-8") as f:
+            d = json.load(f)
+        return {"total": d.get("total", 0), "sections": d.get("sections", {})}
+    except Exception:
+        return {"total": 0, "sections": {}}
+
+def save_stats(stats):
+    tmp = STATS_FILE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(stats, f)
+    os.replace(tmp, STATS_FILE)
 
 def safe_filename(name):
     name = os.path.basename(name or "file")
@@ -175,6 +191,7 @@ class Handler(BaseHTTPRequestHandler):
 
     # ---- static ----
     def serve_static(self, path):
+        path = unquote(path)
         if path == "/":
             return self.send_file(os.path.join(ROOT, "site", "index.html"))
         if path == "/admin":
@@ -191,6 +208,17 @@ class Handler(BaseHTTPRequestHandler):
     # ---- GET ----
     def do_GET(self):
         url = urlparse(self.path)
+        if url.path == "/api/visit":
+            qs = parse_qs(url.query, keep_blank_values=True)
+            section = (qs.get("section", [""])[0] or "")[:24]
+            stats = load_stats()
+            if "increment" in qs:
+                stats["total"] = stats.get("total", 0) + 1
+                if section and all(c.isalnum() or c == "-" for c in section) and section.islower():
+                    stats.setdefault("sections", {})
+                    stats["sections"][section] = stats["sections"].get(section, 0) + 1
+                save_stats(stats)
+            return self.send_json({"ok": True, "total": stats.get("total", 0), "sections": stats.get("sections", {})})
         if url.path == "/api/content":
             return self.send_json(load_content())
         if url.path == "/api/files":
