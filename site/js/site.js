@@ -560,6 +560,14 @@
     onScrollActive();
   }
 
+  /* ---------- preloader ---------- */
+  function hidePreloader() {
+    var p = document.getElementById("preloader");
+    if (p && !p.classList.contains("done")) p.classList.add("done");
+  }
+  // Safety net: never trap the visitor on the loader
+  setTimeout(hidePreloader, 4000);
+
   /* ---------- boot ---------- */
   initTheme();
   initContactForm();
@@ -569,9 +577,12 @@
     .then(function (data) {
       window.__roles__ = data.profile.roles || [];
       render(data);
+      // Fade out once the page above the fold has settled
+      setTimeout(hidePreloader, 250);
     })
     .catch(function (err) {
       document.body.insertAdjacentHTML("afterbegin",
         '<div style="padding:12px;background:#7f1d1d;color:#fff;font-family:sans-serif">Failed to load content: ' + esc(err.message) + "</div>");
+      hidePreloader();
     });
 })();
