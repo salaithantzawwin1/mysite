@@ -508,8 +508,14 @@ a:hover { text-decoration: underline; }
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  /* Keep the big number above the title, not between image and title */
+  order: 0;
 }
 .project-metric:empty { display: none; }
+.project-card:has(.project-metric:not(:empty)) .project-img,
+.project-card:has(.project-metric:not(:empty)) .project-icon { order: -1; }
+.project-card { display: flex; flex-direction: column; align-items: flex-start; }
+.project-card h3, .project-card p { order: 1; width: 100%; }
 
 /* ---------- Skills ---------- */
 .skills-hint { color: var(--muted); font-size: 0.9rem; margin-bottom: 26px; }
