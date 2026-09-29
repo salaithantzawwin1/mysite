@@ -24,7 +24,7 @@
 /* hidden attribute must always win, even over display:flex/grid rules */
 [hidden] { display: none !important; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 14px); }
 
 body {
   font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
