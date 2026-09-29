@@ -10,7 +10,7 @@
       "VMware Virtualization Specialist"
     ],
     "summary": "15+ years keeping servers, networks and security running reliably — Windows/Active Directory, Exchange, Cisco & FortiGate, and VMware — with clear documentation and calm, steady operations.",
-    "photo": "assets/hero-portrait.jpg",
+    "photo": "assets/hero-portrait.webp",
     "stats": [
       {
         "value": 16,
@@ -65,7 +65,7 @@
         "link": ""
       }
     ],
-    "photo": "assets/about-photo.jpg"
+    "photo": "assets/about-photo.webp"
   },
   "experience": {
     "kicker": "Career",
@@ -93,7 +93,8 @@
           "VMware ESXi",
           "Backup & DR",
           "Vendor management"
-        ]
+        ],
+        "image": "assets/job-golden-legend.webp"
       },
       {
         "id": "job-2",
@@ -121,7 +122,8 @@
           "Cisco",
           "FortiGate",
           "VMware"
-        ]
+        ],
+        "image": "assets/job-great-foundation.webp"
       }
     ]
   },
@@ -135,7 +137,7 @@
         "title": "Domain-Based Network Design & Implementation",
         "description": "Designed and deployed a robust domain-based infrastructure, enabling centralized data management, stable network performance, and streamlined resource sharing across departments — supporting overall business continuity.",
         "highlight": "",
-        "image": "assets/proj-network.jpg"
+        "image": "assets/proj-network.webp"
       },
       {
         "id": "proj-2",
@@ -159,7 +161,7 @@
         "title": "VMware ESXi Virtualization Deployment",
         "description": "Led deployment and ongoing management of VMware ESXi environments, increasing server resource efficiency by {highlight} and cutting hardware costs by 20% through optimized virtualization.",
         "highlight": "30%",
-        "image": "assets/proj-vmware.jpg"
+        "image": "assets/proj-vmware.webp"
       },
       {
         "id": "proj-5",
@@ -167,7 +169,7 @@
         "title": "Network Infrastructure Maintenance & Uptime Assurance",
         "description": "Oversaw company network infrastructure for over a decade, achieving {highlight} uptime and ensuring reliable, uninterrupted service for daily operations.",
         "highlight": "99.9%",
-        "image": "assets/proj-security.jpg"
+        "image": "assets/proj-security.webp"
       }
     ]
   },
@@ -287,7 +289,7 @@
         "icon": "🏭",
         "name": "FSSC22000/GMP/HACCP & ISO 9001:2015 Documentation",
         "issuer": "SGS · 2018",
-        "image": "certificates/FSSC 001.jpg"
+        "image": "certificates/FSSC 001.webp"
       },
       {
         "id": "cert-4",
@@ -364,5 +366,23 @@
     "text": "Salai Thant Zaw Win. All rights reserved.",
     "showTop": true,
     "cvFile": "salaithantzawwin.docx"
+  },
+  "blog": {
+    "kicker": "News & updates",
+    "title": "Latest updates",
+    "posts": [
+      {
+        "id": "post-1",
+        "title": "Portfolio is live",
+        "date": "2026-01",
+        "body": "My new portfolio site is now live — built with a custom admin panel so I can update projects, certifications and posts anytime.\n\nMore updates coming soon: infrastructure write-ups, homelab notes and certification study tips."
+      },
+      {
+        "id": "post-2",
+        "title": "About this site",
+        "date": "2026-01",
+        "body": "This site runs on Vercel with a headless CMS I built — content is stored in serverless Blob storage and edited through the /admin dashboard.\n\nVisitors are counted privacy-friendly: no cookies, no IPs, just anonymous totals."
+      }
+    ]
   }
 }

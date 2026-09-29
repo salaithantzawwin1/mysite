@@ -375,8 +375,10 @@
             '<label class="field checkline"><input type="checkbox" data-job="' + i + '" data-jk="current"' + (j.current ? " checked" : "") + '> Show "Current" badge</label>' +
             '<label class="field">Bullet points (one per line)<textarea rows="6" data-job="' + i + '" data-jk="bulletsText">' + esc((j.bullets || []).join("\n")) + "</textarea></label>" +
             '<label class="field">Tech tags (comma separated, optional)<input data-job="' + i + '" data-jk="tagsText" value="' + esc((j.tags || []).join(", ")) + '"></label>' +
+            imagePicker("experience", i) +
             "</div>";
         }).join("");
+        wireImagePickers($("#jobList"));
       }
 
       var list = $("#jobList");
@@ -668,6 +670,58 @@
       bindFields($("#main"));
     },
 
+    /* ---------------- BLOG / UPDATES ---------------- */
+    blog: function () {
+      var sec = DATA.blog = DATA.blog || { kicker: "News & updates", title: "Latest updates", posts: [] };
+      $("#main").innerHTML = '<div class="panel"><h2>Blog / updates section</h2>' +
+        '<p class="hint">Shown between Certifications and Education. Delete all posts to hide the section from the site.</p>' +
+        '<div class="field-row">' + getField(sec, "kicker", "Kicker") + getField(sec, "title", "Title") + "</div></div>" +
+        '<div class="panel"><h2>Posts</h2><p class="hint">Newest first. Blank line inside the body = new paragraph.</p>' +
+        '<div class="editor-list" id="postList"></div>' +
+        '<button class="btn btn-ghost btn-sm" id="addPost">+ Add post</button></div>';
+
+      function draw() {
+        $("#postList").innerHTML = (sec.posts || []).map(function (p, i) {
+          return '<div class="editor-item">' +
+            '<div class="editor-item-head"><span class="title">' + esc(p.title || "Post") + "</span>" +
+              '<div class="editor-item-actions">' +
+                '<button class="icon-btn" data-up="' + i + '">↑</button>' +
+                '<button class="icon-btn" data-down="' + i + '">↓</button>' +
+                '<button class="icon-btn danger" data-del="' + i + '">Delete</button>' +
+              "</div></div>" +
+            '<div class="field-row">' +
+              '<label class="field">Title<input data-p="' + i + '" data-pk="title" value="' + esc(p.title) + '"></label>' +
+              '<label class="field">Date (e.g. 2026-01)<input data-p="' + i + '" data-pk="date" value="' + esc(p.date || "") + '"></label>' +
+            "</div>" +
+            '<label class="field">Body<textarea rows="6" data-p="' + i + '" data-pk="body">' + esc(p.body || "") + "</textarea></label>" +
+            "</div>";
+        }).join("");
+      }
+      var list = $("#postList");
+      list.addEventListener("input", function (e) {
+        var t = e.target;
+        if (t.dataset.p != null) sec.posts[+t.dataset.p][t.dataset.pk] = t.value;
+      });
+      list.addEventListener("click", function (e) {
+        var b;
+        if ((b = e.target.closest("[data-del]"))) { sec.posts.splice(+b.dataset.del, 1); draw(); }
+        else if ((b = e.target.closest("[data-up]"))) {
+          var i = +b.dataset.up;
+          if (i > 0) { var t = sec.posts[i - 1]; sec.posts[i - 1] = sec.posts[i]; sec.posts[i] = t; draw(); }
+        } else if ((b = e.target.closest("[data-down]"))) {
+          var i2 = +b.dataset.down;
+          if (i2 < sec.posts.length - 1) { var t2 = sec.posts[i2 + 1]; sec.posts[i2 + 1] = sec.posts[i2]; sec.posts[i2] = t2; draw(); }
+        }
+      });
+      $("#addPost").addEventListener("click", function () {
+        sec.posts.unshift({ id: uid("post"), title: "New update", date: new Date().toISOString().slice(0, 7), body: "" });
+        draw();
+      });
+
+      draw();
+      bindFields($("#main"));
+    },
+
     /* ---------------- CONTACT ---------------- */
     contact: function () {
       var sec = DATA.contact;
@@ -847,7 +901,7 @@
   /* ---------------- site statistics panel ---------------- */
   var SECTION_LABELS = {
     home: "Home (hero)", about: "About", experience: "Experience", projects: "Projects",
-    skills: "Skills", certs: "Certifications", education: "Education", contact: "Contact"
+    skills: "Skills", certs: "Certifications", blog: "Blog/Updates", education: "Education", contact: "Contact"
   };
   function compactNumber(n) {
     if (n >= 1000000) return (Math.floor(n / 100000) / 10).toFixed(1).replace(/\.0$/, "") + "M";

@@ -135,10 +135,14 @@
     $("#expTitle").textContent = data.experience.title;
     $("#timeline").innerHTML = (data.experience.jobs || []).map(function (job, i) {
       var pill = job.current ? '<span class="timeline-pill">Current</span>' : "";
+      var photo = job.image
+        ? '<img class="timeline-photo" src="' + esc(job.image) + '" alt="' + esc(job.company) + '" loading="lazy" width="900" height="600">'
+        : "";
       return (
         '<article class="timeline-item reveal' + (i % 2 ? " delay-1" : "") + '">' +
           '<div class="timeline-badge">' + esc(job.icon || "💼") + "</div>" +
           '<div class="timeline-content card">' +
+            photo +
             '<div class="timeline-head"><h3>' + esc(job.role) + "</h3>" + pill + "</div>" +
             '<p class="timeline-meta">' + esc(job.company) + " · " + esc(job.period) + "</p>" +
             '<ul class="timeline-list">' +
@@ -159,7 +163,7 @@
       var hasHighlight = p.highlight && String(p.highlight).trim() !== "";
       var desc = esc((p.description || "").replace(/\{highlight\}/g, hasHighlight ? p.highlight : ""));
       var img = p.image
-        ? '<img class="project-img" src="' + esc(p.image) + '" alt="' + esc(p.title) + '">'
+        ? '<img class="project-img" src="' + esc(p.image) + '" alt="' + esc(p.title) + '" loading="lazy" width="800" height="600">'
         : '<div class="project-icon">' + esc(p.icon || "📁") + "</div>";
       var metric = hasHighlight ? '<div class="project-metric">' + esc(p.highlight) + "</div>" : "";
       return (
@@ -200,7 +204,7 @@
       var isImg = c.image && !isPdf;
       var media;
       if (isImg) {
-        media = '<img class="cert-img" src="' + esc(c.image) + '" alt="' + esc(c.name) + '">';
+        media = '<img class="cert-img" src="' + esc(c.image) + '" alt="' + esc(c.name) + '" loading="lazy" width="140" height="140">';
       } else if (isPdf) {
         media = '<a class="cert-pdf" href="' + esc(c.image) + '" target="_blank" rel="noopener" title="View certificate">📄</a>';
       } else {
@@ -226,6 +230,28 @@
         "</div>"
       );
     }).join("");
+
+    // Blog / updates (optional — hidden when no posts)
+    var blogSec = document.getElementById("blog");
+    if (blogSec) {
+      var posts = (data.blog && data.blog.posts) || [];
+      if (posts.length) {
+        $("#blogKicker").textContent = data.blog.kicker || "Updates";
+        $("#blogTitle").textContent = data.blog.title || "Updates";
+        $("#blogList").innerHTML = posts.map(function (p, i) {
+          var paras = String(p.body || "").split(/\n\s*\n/).map(function (t) { return "<p>" + esc(t) + "</p>"; }).join("");
+          return (
+            '<article class="card blog-card reveal' + (i % 2 ? " delay-1" : "") + '">' +
+              '<div class="blog-meta">' + esc(p.date || "") + "</div>" +
+              "<h3>" + esc(p.title) + "</h3>" + paras +
+            "</article>"
+          );
+        }).join("");
+        blogSec.hidden = false;
+      } else {
+        blogSec.hidden = true;
+      }
+    }
 
     // Contact
     $("#contactKicker").textContent = data.contact.kicker;
@@ -336,7 +362,7 @@
   function trackSectionViews() {
     var tracked = {};
     try { tracked = JSON.parse(sessionStorage.getItem("sectionViews") || "{}"); } catch (e) {}
-    var ids = ["home", "about", "experience", "projects", "skills", "certs", "education", "contact"];
+    var ids = ["home", "about", "experience", "projects", "skills", "certs", "education", "blog", "contact"];
     if (!("IntersectionObserver" in window)) return;
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
