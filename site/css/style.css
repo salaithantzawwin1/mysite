@@ -121,6 +121,7 @@ a:hover { text-decoration: underline; }
 .hero {
   position: relative;
   min-height: 85vh;
+  min-height: 85svh;
   display: flex;
   align-items: flex-start;
   overflow: hidden;
@@ -613,6 +614,31 @@ a:hover { text-decoration: underline; }
 /* ---------- Education ---------- */
 .edu-card { display: flex; gap: 16px; align-items: flex-start; max-width: 560px; }
 
+/* ---------- Accessibility: skip link + focus ---------- */
+.skip-link {
+  position: fixed;
+  top: -48px;
+  left: 16px;
+  z-index: 200;
+  padding: 10px 16px;
+  background: var(--accent);
+  color: #06121f;
+  border-radius: 0 0 10px 10px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+.skip-link:focus { top: 0; }
+
+/* Visible focus for keyboard users (mouse clicks unaffected) */
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
 /* ---------- Experience timeline photos ---------- */
 .timeline-photo {
   width: 100%;
@@ -743,6 +769,8 @@ a:hover { text-decoration: underline; }
 .contact-form input[type="email"],
 .contact-form textarea {
   font: inherit;
+  /* >=16px so iOS Safari doesn't zoom the page when focusing inputs */
+  font-size: max(1rem, 16px);
   font-weight: 400;
   color: var(--text);
   background: var(--bg);
@@ -835,6 +863,15 @@ a:hover { text-decoration: underline; }
 .to-top { color: var(--muted); }
 .to-top:hover { color: var(--accent); }
 
+/* ---------- Notched iPhone safe areas (fullscreen/PWA) ---------- */
+.site-header { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }
+.hero { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }
+.site-footer {
+  padding-bottom: calc(18px + env(safe-area-inset-bottom));
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
 /* ---------- Light theme ---------- */
 html[data-theme="light"] {
   --bg: #f4f7fb;
@@ -896,6 +933,8 @@ html[data-theme="light"] .skill-group li {
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
   .hero-grid, .about-grid { grid-template-columns: 1fr; }
+  .nav-toggle { width: 44px; height: 44px; }
+  .to-top { padding: 10px 14px; }
   .hero-photo { order: -1; }
   .portrait-card { width: min(340px, 92vw); }
   .hero { padding-top: calc(var(--nav-h) + 24px); }

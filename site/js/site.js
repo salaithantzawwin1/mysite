@@ -524,6 +524,15 @@
         toggle.classList.toggle("open", open);
         toggle.setAttribute("aria-expanded", open ? "true" : "false");
       });
+      // Close the mobile menu with Escape (keyboard users)
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && navList.classList.contains("open")) {
+          navList.classList.remove("open");
+          toggle.classList.remove("open");
+          toggle.setAttribute("aria-expanded", "false");
+          toggle.focus();
+        }
+      });
       navList.addEventListener("click", function (e) {
         if (e.target.tagName === "A") {
           navList.classList.remove("open");

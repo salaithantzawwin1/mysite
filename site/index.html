@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Salai Thant Zaw Win — IT Infrastructure Manager</title>
   <meta name="description" content="Portfolio of Salai Thant Zaw Win, IT Infrastructure Manager with 15+ years of experience in servers, networks, security and virtualization.">
   <!-- Open Graph / social share preview -->
@@ -45,12 +45,13 @@
   </script>
 </head>
 <body>
+  <a class="skip-link" href="#aboutText-main">Skip to main content</a>
 
   <!-- ======= Header / Nav ======= -->
   <header class="site-header" id="top">
-    <nav class="nav container">
-      <a class="brand" href="#top" id="brandName">STZW</a>
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+    <nav class="nav container" aria-label="Main navigation">
+      <a class="brand" href="#top" id="brandName" aria-label="STZW — back to top">STZW</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navList">
         <span></span><span></span><span></span>
       </button>
       <ul class="nav-list" id="navList">
@@ -66,7 +67,7 @@
   </header>
 
   <!-- ======= Hero ======= -->
-  <section class="hero" id="home">
+  <section class="hero" id="home" aria-label="Introduction">
     <div class="container hero-grid">
       <div class="hero-text reveal">
         <p class="hero-kicker" id="heroKicker">Hi, I'm</p>
@@ -90,6 +91,9 @@
     <a class="scroll-hint" href="#about" aria-label="Scroll down">▾</a>
     <div class="hero-bg" aria-hidden="true"></div>
   </section>
+
+  <!-- ======= Main content ======= -->
+  <main id="aboutText-main">
 
   <!-- ======= About ======= -->
   <section class="section" id="about">
@@ -205,5 +209,6 @@
   </footer>
 
   <script src="js/site.js"></script>
+  </main>
 </body>
 </html>
