@@ -216,11 +216,6 @@
         "id": "skill-8",
         "icon": "🧭",
         "name": "Strategic IT Planning"
-      },
-      {
-        "id": "skill-9",
-        "icon": "📦",
-        "name": "Virtualization"
       }
     ],
     "groups": [
@@ -239,7 +234,7 @@
         "name": "Network",
         "items": [
           "Cisco routers/switches",
-          "Mikrotik / Ruijie",
+          "MikroTik / Ruijie",
           "VLANs & routing",
           "LAN/WAN design",
           "ISP management"
@@ -250,7 +245,7 @@
         "items": [
           "FortiGate firewalls",
           "Firewall policies",
-          "IDS",
+          "Intrusion detection (IDS)",
           "Access control",
           "Remote access (VPN)"
         ]
