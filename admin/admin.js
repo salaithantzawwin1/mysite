@@ -111,10 +111,11 @@
   function getField(obj, key, label, opts) {
     opts = opts || {};
     var type = opts.type || "text";
+    var bindKey = (opts.root ? opts.root + "." : "") + key;
     return '<label class="field">' + esc(label) +
       (type === "textarea"
-        ? '<textarea data-bind="' + key + '" rows="' + (opts.rows || 3) + '">' + esc(obj[key] || "") + "</textarea>"
-        : '<input type="' + type + '" data-bind="' + key + '" value="' + esc(obj[key] == null ? "" : obj[key]) + '">') +
+        ? '<textarea data-bind="' + bindKey + '" rows="' + (opts.rows || 3) + '">' + esc(obj[key] || "") + "</textarea>"
+        : '<input type="' + type + '" data-bind="' + bindKey + '" value="' + esc(obj[key] == null ? "" : obj[key]) + '">') +
       "</label>";
   }
 
@@ -122,8 +123,16 @@
     $$("[data-bind]", root).forEach(function (input) {
       input.addEventListener("input", function () {
         var key = input.dataset.bind;
-        DATA[TAB === "hero" ? "profile" : TAB][key] =
-          input.type === "number" ? parseFloat(input.value) || 0 : input.value;
+        var val = input.type === "number" ? parseFloat(input.value) || 0 : input.value;
+        // "section.key" paths (e.g. footer.cvFile) resolve through the object tree
+        if (key.indexOf(".") > -1) {
+          var path = key.split(".");
+          var target = DATA;
+          for (var i = 0; i < path.length - 1; i++) target = target[path[i]];
+          target[path[path.length - 1]] = val;
+        } else {
+          DATA[TAB === "hero" ? "profile" : TAB][key] = val;
+        }
       });
     });
   }
@@ -216,7 +225,7 @@
         '<button class="btn btn-ghost btn-sm" id="addStat">+ Add stat</button></div>';
 
       html += '<div class="panel"><h2>CV file</h2><p class="hint">Shown on the "Download CV" button. Leave empty to hide the button.</p>' +
-        getField(DATA.footer, "cvFile", "CV file URL (e.g. salaithantzawwin.docx)") + "</div>";
+        getField(DATA.footer, "cvFile", "CV file URL (e.g. salaithantzawwin.docx)", { root: "footer" }) + "</div>";
 
       $("#main").innerHTML = html;
 
