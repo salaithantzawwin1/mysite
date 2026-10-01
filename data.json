@@ -180,6 +180,30 @@
         "description": "Oversaw company network infrastructure for over a decade, achieving {highlight} uptime and ensuring reliable, uninterrupted service for daily operations.",
         "highlight": "99.9%",
         "image": "assets/proj-security.webp"
+      },
+      {
+        "id": "proj-6",
+        "icon": "👥",
+        "title": "HRMS — Human Resource Management System",
+        "description": "Designed and developed an in-house HRMS with PHP (Laravel) and MySQL to digitize staff records, attendance and leave workflows — replacing spreadsheet-based tracking. Now serving {highlight} staff company-wide, it reduced manual HR paperwork and gave management real-time visibility of headcount and absence.",
+        "highlight": "200+",
+        "image": ""
+      },
+      {
+        "id": "proj-7",
+        "icon": "🗂️",
+        "title": "AMS — Administration Management System",
+        "description": "Built an Administration Management System with PHP (Laravel) and MySQL to centralize day-to-day administration — requisitions, approvals and document tracking — with role-based access for {highlight} departments. Cut repetitive paperwork and follow-ups by giving admin staff a single, auditable workflow.",
+        "highlight": "5+",
+        "image": ""
+      },
+      {
+        "id": "proj-8",
+        "icon": "📦",
+        "title": "Inventory Management System",
+        "description": "Developed an Inventory Management System with PHP (Laravel) and MySQL covering stock-in/out, reorder alerts and reporting for store and procurement teams — achieving {highlight} stock accuracy and preventing both shortages and over-ordering.",
+        "highlight": "99%",
+        "image": ""
       }
     ]
   },
