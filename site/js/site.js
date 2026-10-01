@@ -210,7 +210,7 @@
       } else {
         media = '<span class="cert-icon">' + esc(c.icon || "🎓") + "</span>";
       }
-      var nameHtml = isPdf && c.image
+      var nameHtml = (isPdf || isImg) && c.image
         ? '<a class="cert-link" href="' + esc(c.image) + '" target="_blank" rel="noopener">' + esc(c.name) + " ↗</a>"
         : esc(c.name);
       return (
