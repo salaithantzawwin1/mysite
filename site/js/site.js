@@ -204,7 +204,7 @@
       var isImg = c.image && !isPdf;
       var media;
       if (isImg) {
-        media = '<img class="cert-img" src="' + esc(c.image) + '" alt="' + esc(c.name) + '" loading="lazy" width="140" height="140">';
+        media = '<a class="cert-img-link" href="' + esc(c.image) + '" target="_blank" rel="noopener" title="View certificate"><img class="cert-img" src="' + esc(c.image) + '" alt="' + esc(c.name) + '" loading="lazy" width="140" height="140"></a>';
       } else if (isPdf) {
         media = '<a class="cert-pdf" href="' + esc(c.image) + '" target="_blank" rel="noopener" title="View certificate">📄</a>';
       } else {

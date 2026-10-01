@@ -269,7 +269,7 @@
         "id": "cert-1",
         "icon": "🎓",
         "name": "Cisco Certified Network Associate (CCNA)",
-        "issuer": "CCNA VCE · Local",
+        "issuer": "Local training",
         "image": "certificates/Thant Zaw Win_CCNA.pdf"
       },
       {
@@ -282,7 +282,7 @@
       {
         "id": "cert-3",
         "icon": "🏭",
-        "name": "FSSC22000/GMP/HACCP & ISO 9001:2015 Documentation",
+        "name": "FSSC 22000 / GMP / HACCP & ISO 9001:2015 Documentation",
         "issuer": "SGS · 2018",
         "image": "certificates/FSSC 001.webp"
       },
@@ -303,7 +303,7 @@
     ]
   },
   "education": {
-    "kicker": "Education",
+    "kicker": "Academic background",
     "title": "Education",
     "items": [
       {
