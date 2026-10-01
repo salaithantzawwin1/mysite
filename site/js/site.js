@@ -275,7 +275,7 @@
       return (
         '<a class="card contact-card reveal' + (i === 1 ? " delay-1" : i === 2 ? " delay-2" : i === 3 ? " delay-3" : "") + '" href="' + esc(c.link || "#") + '">' +
           '<span class="contact-icon">' + esc(c.icon || "•") + "</span>" +
-          "<h3>" + esc(c.label) + "</h3><p>" + esc(c.value) + "</p>" +
+          '<div class="cc-body"><h3>' + esc(c.label) + "</h3><p>" + esc(c.value) + "</p></div>" +
         "</a>"
       );
     }).join("");
