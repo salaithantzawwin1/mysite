@@ -1033,8 +1033,9 @@ html[data-theme="light"] .skill-group li {
   .hero-grid, .about-grid { grid-template-columns: 1fr; }
   .nav-toggle { width: 44px; height: 44px; }
   .to-top { padding: 10px 14px; }
-  .hero-photo { order: -1; }
-  .portrait-card { width: min(340px, 92vw); }
+  /* Identity first on small screens: name, badge, summary and CTAs must be
+     visible without scrolling — the portrait follows as a closing visual */
+  .portrait-card { width: min(300px, 82vw); }
   .hero { padding-top: calc(var(--nav-h) + 24px); }
 }
 
