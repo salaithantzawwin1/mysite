@@ -764,6 +764,7 @@ button:focus-visible,
 
 /* ---------- Contact ---------- */
 .contact-lead { color: var(--muted); max-width: 60ch; margin-bottom: 34px; }
+.contact-lead:empty { display: none; }
 .contact-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
