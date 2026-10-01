@@ -31,6 +31,16 @@
     "available": true,
     "availableText": "Open to new opportunities"
   },
+  "sections": {
+    "about": true,
+    "experience": true,
+    "projects": true,
+    "skills": true,
+    "certifications": true,
+    "blog": true,
+    "education": true,
+    "contact": true
+  },
   "about": {
     "kicker": "Who I am",
     "title": "About me",
@@ -176,6 +186,7 @@
   "skills": {
     "kicker": "Toolkit",
     "title": "Skills",
+    "hint": "Core tools grouped by category, followed by the strengths behind them.",
     "items": [
       {
         "id": "skill-1",

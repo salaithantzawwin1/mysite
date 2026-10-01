@@ -96,6 +96,22 @@
       .catch(function (err) { toast("Save failed: " + err.message, true); });
   });
 
+  /* ---------------- confirm before any delete ----------------
+     Intercepts every delete button (data-del / data-gdel / data-sodel /
+     data-delstat) in the capture phase, BEFORE the per-list handlers run.
+     Cancelling here stops the item from being removed. */
+  document.addEventListener("click", function (e) {
+    var btn = e.target.closest("[data-del],[data-gdel],[data-sodel],[data-delstat]");
+    if (!btn || !e.target.closest("#appView") || $("#appView").hidden) return;
+    var item = btn.closest(".editor-item");
+    var nameEl = item ? item.querySelector(".title") : null;
+    var name = nameEl ? nameEl.textContent.trim() : "";
+    if (!window.confirm('Delete "' + (name || "this item") + '"? The change is applied when you press Save changes.')) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+  }, true);
+
   /* ---------------- tabs ---------------- */
   $("#sideNav").addEventListener("click", function (e) {
     var btn = e.target.closest("button[data-tab]");
@@ -224,7 +240,8 @@
       html += '<div class="panel"><h2>Hero statistics</h2><p class="hint">Numbers count up when the page loads.</p><div class="editor-list" id="statList"></div>' +
         '<button class="btn btn-ghost btn-sm" id="addStat">+ Add stat</button></div>';
 
-      html += '<div class="panel"><h2>CV file</h2><p class="hint">Shown on the "Download CV" button. Leave empty to hide the button.</p>' +
+      html += '<div class="panel"><h2>Footer &amp; CV</h2><p class="hint">Footer text appears after "© year". Leave the CV URL empty to hide the button.</p>' +
+        getField(DATA.footer, "text", "Footer text", { root: "footer" }) +
         getField(DATA.footer, "cvFile", "CV file URL (e.g. salaithantzawwin.docx)", { root: "footer" }) + "</div>";
 
       $("#main").innerHTML = html;
@@ -483,7 +500,9 @@
     skills: function () {
       var sec = DATA.skills;
       $("#main").innerHTML = '<div class="panel"><h2>Skills section</h2><div class="field-row">' +
-        getField(sec, "kicker", "Kicker") + getField(sec, "title", "Title") + "</div></div>" +
+        getField(sec, "kicker", "Kicker") + getField(sec, "title", "Title") + "</div>" +
+        getField(sec, "hint", "Hint line (under the title — leave empty to hide)", { type: "textarea", rows: 2 }) +
+        "</div></div>" +
         '<div class="panel"><h2>Skill groups (shown as category boxes)</h2>' +
         '<p class="hint">Each group is a box with a heading and comma-separated items. Leave all empty to hide groups.</p>' +
         '<div class="editor-list" id="groupList"></div>' +
@@ -831,6 +850,26 @@
       bindFields($("#main"));
     },
 
+    /* ---------------- SECTIONS ---------------- */
+    sections: function () {
+      var s = DATA.sections = DATA.sections || defaultSections();
+      var rows = [
+        ["about", "👤 About"],
+        ["experience", "💼 Experience"],
+        ["projects", "🚀 Projects"],
+        ["skills", "🧰 Skills"],
+        ["certifications", "🎓 Certifications"],
+        ["blog", "📰 Blog / Updates"],
+        ["education", "📚 Education"],
+        ["contact", "✉️ Contact"]
+      ];
+      $("#main").innerHTML = '<div class="panel"><h2>Visible sections</h2>' +
+        '<p class="hint">Untick a section to hide it from the public site — its nav link hides automatically. The hero/home section is always visible. Blog also hides itself when all posts are deleted.</p>' +
+        rows.map(function (r) {
+          return '<label class="field checkline"><input type="checkbox" data-sec="' + r[0] + '"' + (s[r[0]] === false ? "" : " checked") + "> " + r[1] + "</label>";
+        }).join("") + "</div>";
+    },
+
     /* ---------------- FILES ---------------- */
     files: function () {
       $("#main").innerHTML = '<div class="panel"><h2>Media files</h2>' +
@@ -902,6 +941,18 @@
       loadFiles();
     }
   };
+
+  /* ---------------- section visibility ---------------- */
+  function defaultSections() {
+    return { about: true, experience: true, projects: true, skills: true, certifications: true, blog: true, education: true, contact: true };
+  }
+  // checkbox changes are delegated once on document (renderTab swaps #main content)
+  document.addEventListener("change", function (e) {
+    var t = e.target;
+    if (!DATA || !t.matches || !t.matches("[data-sec]")) return;
+    DATA.sections = DATA.sections || defaultSections();
+    DATA.sections[t.dataset.sec] = t.checked;
+  });
 
   function renderTab() {
     (renderers[TAB] || renderers.hero)();

@@ -176,6 +176,7 @@
     // Skills — grouped (if skillGroups defined) + full list
     $("#skillKicker").textContent = data.skills.kicker;
     $("#skillTitle").textContent = data.skills.title;
+    if (data.skills.hint != null) $("#skillsHint").textContent = data.skills.hint; // admin-editable; static HTML is the fallback
     $("#skillGrid").innerHTML = (data.skills.items || []).map(function (s, i) {
       return '<div class="card skill-card reveal' + (i % 4 === 1 ? " delay-1" : i % 4 === 2 ? " delay-2" : i % 4 === 3 ? " delay-3" : "") + '"><span class="skill-icon">' + esc(s.icon || "•") + "</span><h3>" + esc(s.name) + "</h3></div>";
     }).join("");
@@ -233,7 +234,8 @@
       );
     }).join("");
 
-    // Blog / updates (optional — hidden when no posts)
+    // Blog / updates (optional — hidden when no posts or when toggled off)
+    var vis = data.sections || {};
     var blogSec = document.getElementById("blog");
     if (blogSec) {
       var posts = (data.blog && data.blog.posts) || [];
@@ -249,7 +251,7 @@
             "</article>"
           );
         }).join("");
-        blogSec.hidden = false;
+        blogSec.hidden = vis.blog === false;
       } else {
         blogSec.hidden = true;
       }
@@ -301,8 +303,10 @@
       footerSocial.hidden = !socials.length;
     }
 
-    // Footer year
+    // Footer year + text (admin-editable; static HTML is the fallback)
     $("#year").textContent = new Date().getFullYear();
+    var footerTextEl = document.getElementById("footerText");
+    if (footerTextEl && data.footer.text && String(data.footer.text).trim() !== "") footerTextEl.textContent = data.footer.text;
 
     // Visitor counter (once per browser session) + friendly compact format
     var visitBadge = $("#visitBadge");
@@ -349,6 +353,18 @@
     var cvBtn = $("#cvBtn");
     cvBtn.style.display = data.footer.cvFile ? "" : "none";
     if (data.footer.cvFile) cvBtn.setAttribute("href", data.footer.cvFile);
+
+    // Section visibility toggles (admin "Sections" tab) — also hide matching nav links
+    [["about", "about"], ["experience", "experience"], ["projects", "projects"], ["skills", "skills"], ["certifications", "certs"], ["education", "education"], ["contact", "contact"]].forEach(function (pair) {
+      var el = document.getElementById(pair[1]);
+      if (el) el.hidden = vis[pair[0]] === false;
+    });
+    document.querySelectorAll(".nav-link").forEach(function (a) {
+      var id = (a.getAttribute("href") || "").replace("#", "");
+      var key = id === "certs" ? "certifications" : id;
+      var el = document.getElementById(id);
+      if (el && (key in vis)) a.hidden = vis[key] === false;
+    });
 
     afterRender();
   }
