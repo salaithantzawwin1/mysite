@@ -51,17 +51,30 @@ a:hover { text-decoration: underline; }
   z-index: 100;
   transition: background 0.3s, box-shadow 0.3s;
 }
-/* Reading progress bar across the very top of the header */
+/* Reading progress bar across the very top of the header.
+   Dark theme: neon sky→indigo that glows like a light strip.
+   Light theme: deeper sky→indigo with a soft drop shadow so it reads on white. */
 .scroll-progress {
   position: absolute;
   top: 0; left: 0;
   width: 100%;
   height: 3px;
-  background: var(--accent-grad);
+  background: linear-gradient(90deg, #38bdf8, #818cf8);
   transform: scaleX(0);
   transform-origin: left center;
   z-index: 101;
   will-change: transform;
+  transition: box-shadow 0.45s ease;
+}
+/* Glow only while the visitor is actively scrolling (JS toggles .active) */
+.scroll-progress.active {
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.75), 0 0 16px rgba(129, 140, 248, 0.45);
+}
+html[data-theme="light"] .scroll-progress {
+  background: linear-gradient(90deg, #0284c7, #6366f1);
+}
+html[data-theme="light"] .scroll-progress.active {
+  box-shadow: 0 1px 8px rgba(2, 132, 199, 0.45), 0 0 4px rgba(99, 102, 241, 0.3);
 }
 .site-header.scrolled {
   background: rgba(11, 18, 32, 0.85);

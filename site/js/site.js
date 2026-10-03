@@ -529,6 +529,7 @@
   function initNav() {
     var header = document.querySelector(".site-header");
     var progressBar = document.getElementById("scrollProgress");
+    var progressGlow = null;
     var toTop = document.getElementById("toTop");
     var hero = document.getElementById("home");
     function onScrollHeader() {
@@ -538,6 +539,12 @@
       if (progressBar) {
         var max = document.documentElement.scrollHeight - window.innerHeight;
         progressBar.style.transform = "scaleX(" + (max > 0 ? Math.min(1, y / max) : 0) + ")";
+        // Glow while scrolling, then fade out once the visitor pauses
+        progressBar.classList.add("active");
+        clearTimeout(progressGlow);
+        progressGlow = setTimeout(function () {
+          progressBar.classList.remove("active");
+        }, 400);
       }
       // Back-to-top appears only once the hero is scrolled past
       if (toTop) {
