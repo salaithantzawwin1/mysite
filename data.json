@@ -37,7 +37,7 @@
     "projects": true,
     "skills": true,
     "certifications": true,
-    "blog": true,
+    "blog": false,
     "education": true,
     "contact": true
   },
