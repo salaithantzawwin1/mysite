@@ -1039,6 +1039,12 @@ html[data-theme="light"] .skill-group li {
   .hero { padding-top: calc(var(--nav-h) + 24px); }
 }
 
+/* Tablet band: horizontal nav is too tight for 7 links — keep Education out
+   of the top bar here only (it stays in the mobile burger menu and on desktop) */
+@media (min-width: 721px) and (max-width: 900px) {
+  li.nav-edu { display: none; }
+}
+
 @media (max-width: 720px) {
   .nav-toggle { display: flex; }
   .nav-list {
