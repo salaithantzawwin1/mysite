@@ -318,7 +318,9 @@ html[data-theme="light"] .scroll-progress.active {
 @keyframes bob { 50% { transform: translate(-50%, 8px); } }
 
 /* ---------- Sections ---------- */
-.section { padding: 48px 0; }
+/* Asymmetric: tighter top so anchored sections don't leave a wide band
+   under the fixed nav; generous bottom keeps the reading rhythm */
+.section { padding: 24px 0 48px; }
 .section-alt {
   background: var(--bg-alt);
   border-block: 1px solid var(--line);
@@ -336,6 +338,10 @@ html[data-theme="light"] .scroll-progress.active {
   font-size: clamp(1.7rem, 3.4vw, 2.3rem);
   margin-bottom: 36px;
 }
+/* A caption/lead directly under the title should hug it, not inherit the
+   full title→content spacing (collapsed margin: 36 - 20 = 16px) */
+.section-title + .skills-hint,
+.section-title + .contact-lead { margin-top: -20px; }
 
 /* ---------- Buttons ---------- */
 .btn {
@@ -1131,7 +1137,7 @@ html[data-theme="light"] .skill-group li {
   .nav-link::after { display: none; }
 
   .hero-stats { gap: 26px; }
-  .section { padding: 40px 0; }
+  .section { padding: 24px 0 40px; }
   .timeline { padding-left: 28px; }
   .timeline-badge { left: -28px; }
   .contact-form .form-row { grid-template-columns: 1fr; }
