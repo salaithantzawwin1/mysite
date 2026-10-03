@@ -528,10 +528,25 @@
   /* ---------- nav behaviours (static, run once) ---------- */
   function initNav() {
     var header = document.querySelector(".site-header");
+    var progressBar = document.getElementById("scrollProgress");
+    var toTop = document.getElementById("toTop");
+    var hero = document.getElementById("home");
     function onScrollHeader() {
-      if (header) header.classList.toggle("scrolled", window.scrollY > 10);
+      var y = window.scrollY;
+      if (header) header.classList.toggle("scrolled", y > 10);
+      // Reading progress bar
+      if (progressBar) {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        progressBar.style.transform = "scaleX(" + (max > 0 ? Math.min(1, y / max) : 0) + ")";
+      }
+      // Back-to-top appears only once the hero is scrolled past
+      if (toTop) {
+        var past = hero ? hero.offsetHeight - 68 : window.innerHeight * 0.8;
+        toTop.classList.toggle("show", y > past);
+      }
     }
     window.addEventListener("scroll", onScrollHeader, { passive: true });
+    window.addEventListener("resize", onScrollHeader, { passive: true });
     onScrollHeader();
 
     var toggle = document.getElementById("navToggle");
@@ -566,6 +581,9 @@
       var pos = window.scrollY + 120;
       var currentId = "";
       sections.forEach(function (s) {
+        // Skip hidden sections (e.g. toggled off in admin) and id-less nodes —
+        // otherwise a hidden section's offsetTop of 0 steals the active state
+        if (!s.id || s.offsetHeight === 0) return;
         if (s.offsetTop <= pos) currentId = s.id;
       });
       navLinks.forEach(function (a) {
